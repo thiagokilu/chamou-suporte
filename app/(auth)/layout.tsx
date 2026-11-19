@@ -8,7 +8,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-[var(--ch-bg)]">
+    <div className="flex h-dvh bg-[var(--ch-bg)]">
       <Suspense
         fallback={<div className="hidden lg:block lg:w-[var(--sidebar-w)]" />}
       >

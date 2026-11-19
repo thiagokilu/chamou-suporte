@@ -182,8 +182,18 @@ export default function TicketsTableBody() {
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isCompactLayout, setIsCompactLayout] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const updateLayout = () => setIsCompactLayout(mediaQuery.matches);
+    updateLayout();
+    mediaQuery.addEventListener("change", updateLayout);
+    return () => mediaQuery.removeEventListener("change", updateLayout);
+  }, []);
 
   const loadTickets = useCallback(() => {
     if (isDemo) {
@@ -335,8 +345,8 @@ export default function TicketsTableBody() {
 
   return (
     <main className="min-h-screen bg-[var(--ch-bg)] text-[var(--ch-ink)]">
-      <div className="mx-auto max-w-[1540px] px-4 py-6 sm:px-8 lg:px-12 lg:py-9">
-        <header className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+      <div className="mx-auto w-full max-w-[1540px] px-3 py-5 sm:px-8 sm:py-6 lg:px-12 lg:py-9">
+        <header className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <nav
               aria-label="Caminho"
@@ -344,7 +354,7 @@ export default function TicketsTableBody() {
             >
               Suporte <span className="mx-1.5 text-[#9AA99F]">/</span> Chamados
             </nav>
-            <h1 className="text-[28px] font-bold tracking-tight text-[#0F3D2A]">
+            <h1 className="text-2xl font-bold tracking-tight text-[#0F3D2A] sm:text-[28px]">
               Chamados
             </h1>
             <p className="mt-1 text-sm text-[#4B5E54]">
@@ -357,7 +367,7 @@ export default function TicketsTableBody() {
             type="button"
             onClick={() => setIsCreateModalOpen(true)}
             data-tour="create-ticket"
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#15803D] px-4 text-sm font-semibold text-white transition-colors hover:bg-[#116A32] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5F7F4] motion-reduce:transition-none"
+            className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-[#15803D] px-4 text-sm font-semibold text-white transition-colors hover:bg-[#116A32] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5F7F4] motion-reduce:transition-none sm:w-auto"
           >
             <FiPlus aria-hidden="true" /> Novo chamado
           </button>
@@ -365,7 +375,7 @@ export default function TicketsTableBody() {
 
         <section
           aria-label="Resumo de chamados"
-          className="mb-7 grid grid-cols-2 gap-3 lg:grid-cols-4"
+          className="mb-5 grid grid-cols-2 gap-2 sm:mb-7 sm:gap-3 lg:grid-cols-4"
         >
           <Metric
             label="Total de chamados"
@@ -508,12 +518,12 @@ export default function TicketsTableBody() {
                 </>
               )}
             </p>
-            <button className="inline-flex items-center gap-2 rounded-lg text-sm font-medium text-[#4B5E54] transition-colors hover:text-[#0F3D2A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] motion-reduce:transition-none">
+            <button className="hidden items-center gap-2 rounded-lg text-sm font-medium text-[#4B5E54] transition-colors hover:text-[#0F3D2A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] motion-reduce:transition-none sm:inline-flex">
               <FiSliders aria-hidden="true" /> Personalizar colunas
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          {!isCompactLayout && <div className="overflow-x-auto">
             {isLoading ? (
               <Loading />
             ) : error ? (
@@ -541,7 +551,39 @@ export default function TicketsTableBody() {
                 )}
               </>
             )}
-          </div>
+          </div>}
+
+          {isCompactLayout && <div className="divide-y divide-[#E6ECE7]">
+            {isLoading ? (
+              <Loading />
+            ) : error ? (
+              <LoadError message={error} onRetry={loadTickets} />
+            ) : visible.length === 0 ? (
+              <Empty onClear={clear} canClear={filtered} />
+            ) : (
+              visible.map((ticket) => (
+                <button
+                  key={ticket.id}
+                  type="button"
+                  onClick={() => openTicket(ticket)}
+                  className="block w-full px-4 py-4 text-left transition-colors hover:bg-[#F2F6F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#15803D] motion-reduce:transition-none"
+                >
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="min-w-0">
+                      <span className="block text-xs font-medium text-[#4B5E54]">#{ticket.id}</span>
+                      <span className="mt-1 block break-words text-sm font-semibold text-[#10241A]">{ticket.subject}</span>
+                    </span>
+                    <span className="shrink-0 rounded-full bg-[#F2F6F3] px-2.5 py-1 text-xs font-medium text-[#4B5E54]">{ticket.priority}</span>
+                  </span>
+                  <span className="mt-3 flex flex-wrap items-center gap-2 text-xs text-[#4B5E54]">
+                    <span className="rounded-full bg-[#DDF3E4] px-2.5 py-1 text-[#0F3D2A]">{ticket.status}</span>
+                    <span className="truncate">{ticket.requester.name}</span>
+                  </span>
+                  <span className="mt-2 block text-xs text-[#718078]">Atualizado {ticket.updatedAt}</span>
+                </button>
+              ))
+            )}
+          </div>}
 
           <TicketTablePagination
             pageSize={pageSize}

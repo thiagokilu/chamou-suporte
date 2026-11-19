@@ -242,6 +242,31 @@ function ChamadoContent({ params }: PageProps) {
         <h2 className="mb-4 text-[10px] font-bold uppercase tracking-widest text-[var(--ch-muted)]">
           Detalhes
         </h2>
+        <div className="mb-4 grid grid-cols-2 gap-2 lg:hidden">
+          <div className="min-w-0 rounded-lg border border-[var(--ch-line)] bg-[var(--ch-bg)] p-3">
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--ch-muted)]">
+              Status
+            </p>
+            <span
+              className={`inline-flex max-w-full items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(ticket.status)}`}
+            >
+              <span
+                className={`h-1.5 w-1.5 shrink-0 rounded-full ${statusDot} ${isInProgress ? "animate-pulse" : ""}`}
+              />
+              <span className="truncate">{ticket.status}</span>
+            </span>
+          </div>
+          <div className="min-w-0 rounded-lg border border-[var(--ch-line)] bg-[var(--ch-bg)] p-3">
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--ch-muted)]">
+              Prioridade
+            </p>
+            <span
+              className={`inline-flex max-w-full truncate rounded-full px-2 py-1 text-xs font-medium ${getPrioridadeColor(ticket.prioridade)}`}
+            >
+              {ticket.prioridade}
+            </span>
+          </div>
+        </div>
         <ul className="space-y-3">
           <li className="flex items-start gap-3">
             <FiUser className="mt-0.5 h-4 w-4 shrink-0 text-[var(--ch-muted)]" />
@@ -422,7 +447,7 @@ function ChamadoContent({ params }: PageProps) {
               aria-hidden
             />
             {/* Drawer */}
-            <aside className="lg:hidden fixed right-0 top-0 bottom-0 z-40 w-80 flex flex-col border-l border-[var(--ch-line)] bg-[var(--ch-surface)] overflow-y-auto shadow-2xl">
+            <aside className="lg:hidden fixed right-0 top-0 bottom-0 z-40 w-[calc(100vw-1rem)] max-w-80 flex flex-col border-l border-[var(--ch-line)] bg-[var(--ch-surface)] overflow-y-auto shadow-2xl">
               {/* Drawer header */}
               <div className="flex items-center justify-between border-b border-[var(--ch-line)] px-5 py-4">
                 <span className="text-sm font-semibold text-[var(--ch-ink)]">

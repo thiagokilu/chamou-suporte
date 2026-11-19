@@ -98,9 +98,9 @@ export default function ConfiguracoesPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50">
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto w-full max-w-4xl px-3 py-5 sm:px-6 sm:py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 sm:text-3xl">
             Configurações
           </h1>
           <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
@@ -120,18 +120,18 @@ export default function ConfiguracoesPage() {
         <div className="space-y-6">
           {/* Aparência */}
           <div className="rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-            <div className="flex items-center gap-3 border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+            <div className="flex items-center gap-3 border-b border-zinc-200 px-4 py-4 dark:border-zinc-800 sm:px-6">
               <LuMonitor className="text-zinc-600 dark:text-zinc-400" />
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
                 Aparência
               </h2>
             </div>
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div>
                 <label className="mb-3 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Tema
                 </label>
-                <div className="flex gap-3">
+                <div className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-3 sm:gap-3">
                   {["light", "dark", "system"].map((themeOption) => (
                     <button
                       key={themeOption}
@@ -160,13 +160,13 @@ export default function ConfiguracoesPage() {
 
           {/* Idioma */}
           <div className="rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-            <div className="flex items-center gap-3 border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+            <div className="flex items-center gap-3 border-b border-zinc-200 px-4 py-4 dark:border-zinc-800 sm:px-6">
               <LuGlobe className="text-zinc-600 dark:text-zinc-400" />
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
                 Idioma
               </h2>
             </div>
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div>
                 <label className="mb-3 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Idioma da interface
@@ -194,15 +194,15 @@ export default function ConfiguracoesPage() {
 
           {/* Notificações */}
           <div className="rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-            <div className="flex items-center gap-3 border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+            <div className="flex items-center gap-3 border-b border-zinc-200 px-4 py-4 dark:border-zinc-800 sm:px-6">
               <LuBell className="text-zinc-600 dark:text-zinc-400" />
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
                 Notificações
               </h2>
             </div>
-            <div className="p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
+            <div className="space-y-4 p-4 sm:space-y-5 sm:p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
                   <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Notificações por e-mail
                   </h3>
@@ -233,8 +233,8 @@ export default function ConfiguracoesPage() {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div>
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
                   <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Respostas nos tickets
                   </h3>
@@ -265,8 +265,8 @@ export default function ConfiguracoesPage() {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div>
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
                   <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Alterações de status
                   </h3>
@@ -301,18 +301,18 @@ export default function ConfiguracoesPage() {
 
           {/* Preferências */}
           <div className="rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-            <div className="flex items-center gap-3 border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+            <div className="flex items-center gap-3 border-b border-zinc-200 px-4 py-4 dark:border-zinc-800 sm:px-6">
               <LuSettings className="text-zinc-600 dark:text-zinc-400" />
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
                 Preferências
               </h2>
             </div>
-            <div className="p-6 space-y-6">
+            <div className="space-y-6 p-4 sm:p-6">
               <div>
                 <label className="mb-3 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Itens por página
                 </label>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3">
                   {["10", "25", "50"].map((items) => (
                     <button
                       key={items}
@@ -334,8 +334,8 @@ export default function ConfiguracoesPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div>
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
                   <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Confirmação de ações
                   </h3>
@@ -370,7 +370,7 @@ export default function ConfiguracoesPage() {
                 <label className="mb-3 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Formato de data
                 </label>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3">
                   {["DD/MM/YYYY", "MM/DD/YYYY"].map((format) => (
                     <button
                       key={format}
@@ -395,10 +395,10 @@ export default function ConfiguracoesPage() {
           </div>
 
           {/* Botões de ação */}
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
             <button
               onClick={handleRestoreDefaults}
-              className="flex items-center gap-2 rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="flex min-h-10 items-center justify-center gap-2 rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:justify-start"
             >
               <LuRotateCcw />
               Restaurar padrões
@@ -406,7 +406,7 @@ export default function ConfiguracoesPage() {
             <button
               onClick={handleSave}
               disabled={!hasChanges}
-              className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="min-h-10 rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
             >
               Salvar preferências
             </button>
