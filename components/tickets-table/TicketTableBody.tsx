@@ -523,67 +523,81 @@ export default function TicketsTableBody() {
             </button>
           </div>
 
-          {!isCompactLayout && <div className="overflow-x-auto">
-            {isLoading ? (
-              <Loading />
-            ) : error ? (
-              <LoadError message={error} onRetry={loadTickets} />
-            ) : (
-              <>
-                <table className="w-full min-w-[1050px] border-collapse text-left">
-                  <TicketTableHeader
-                    sort={sort}
-                    desc={desc}
-                    onSort={changeSort}
-                  />
-                  <tbody className="divide-y divide-[#E6ECE7]">
-                    {visible.map((ticket) => (
-                      <TicketTableRow
-                        key={ticket.id}
-                        ticket={ticket}
-                        onSelect={openTicket}
-                      />
-                    ))}
-                  </tbody>
-                </table>
-                {visible.length === 0 && (
-                  <Empty onClear={clear} canClear={filtered} />
-                )}
-              </>
-            )}
-          </div>}
+          {!isCompactLayout && (
+            <div className="overflow-x-auto">
+              {isLoading ? (
+                <Loading />
+              ) : error ? (
+                <LoadError message={error} onRetry={loadTickets} />
+              ) : (
+                <>
+                  <table className="w-full min-w-[1050px] border-collapse text-left">
+                    <TicketTableHeader
+                      sort={sort}
+                      desc={desc}
+                      onSort={changeSort}
+                    />
+                    <tbody className="divide-y divide-[#E6ECE7]">
+                      {visible.map((ticket) => (
+                        <TicketTableRow
+                          key={ticket.id}
+                          ticket={ticket}
+                          onSelect={openTicket}
+                        />
+                      ))}
+                    </tbody>
+                  </table>
+                  {visible.length === 0 && (
+                    <Empty onClear={clear} canClear={filtered} />
+                  )}
+                </>
+              )}
+            </div>
+          )}
 
-          {isCompactLayout && <div className="divide-y divide-[#E6ECE7]">
-            {isLoading ? (
-              <Loading />
-            ) : error ? (
-              <LoadError message={error} onRetry={loadTickets} />
-            ) : visible.length === 0 ? (
-              <Empty onClear={clear} canClear={filtered} />
-            ) : (
-              visible.map((ticket) => (
-                <button
-                  key={ticket.id}
-                  type="button"
-                  onClick={() => openTicket(ticket)}
-                  className="block w-full px-4 py-4 text-left transition-colors hover:bg-[#F2F6F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#15803D] motion-reduce:transition-none"
-                >
-                  <span className="flex items-start justify-between gap-3">
-                    <span className="min-w-0">
-                      <span className="block text-xs font-medium text-[#4B5E54]">#{ticket.id}</span>
-                      <span className="mt-1 block break-words text-sm font-semibold text-[#10241A]">{ticket.subject}</span>
+          {isCompactLayout && (
+            <div className="divide-y divide-[#E6ECE7]">
+              {isLoading ? (
+                <Loading />
+              ) : error ? (
+                <LoadError message={error} onRetry={loadTickets} />
+              ) : visible.length === 0 ? (
+                <Empty onClear={clear} canClear={filtered} />
+              ) : (
+                visible.map((ticket) => (
+                  <button
+                    key={ticket.id}
+                    type="button"
+                    onClick={() => openTicket(ticket)}
+                    className="block w-full px-4 py-4 text-left transition-colors hover:bg-[#F2F6F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#15803D] motion-reduce:transition-none"
+                  >
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="min-w-0">
+                        <span className="block text-xs font-medium text-[#4B5E54]">
+                          #{ticket.id}
+                        </span>
+                        <span className="mt-1 block break-words text-sm font-semibold text-[#10241A]">
+                          {ticket.subject}
+                        </span>
+                      </span>
+                      <span className="shrink-0 rounded-full bg-[#F2F6F3] px-2.5 py-1 text-xs font-medium text-[#4B5E54]">
+                        {ticket.priority}
+                      </span>
                     </span>
-                    <span className="shrink-0 rounded-full bg-[#F2F6F3] px-2.5 py-1 text-xs font-medium text-[#4B5E54]">{ticket.priority}</span>
-                  </span>
-                  <span className="mt-3 flex flex-wrap items-center gap-2 text-xs text-[#4B5E54]">
-                    <span className="rounded-full bg-[#DDF3E4] px-2.5 py-1 text-[#0F3D2A]">{ticket.status}</span>
-                    <span className="truncate">{ticket.requester.name}</span>
-                  </span>
-                  <span className="mt-2 block text-xs text-[#718078]">Atualizado {ticket.updatedAt}</span>
-                </button>
-              ))
-            )}
-          </div>}
+                    <span className="mt-3 flex flex-wrap items-center gap-2 text-xs text-[#4B5E54]">
+                      <span className="rounded-full bg-[#DDF3E4] px-2.5 py-1 text-[#0F3D2A]">
+                        {ticket.status}
+                      </span>
+                      <span className="truncate">{ticket.requester.name}</span>
+                    </span>
+                    <span className="mt-2 block text-xs text-[#718078]">
+                      Atualizado {ticket.updatedAt}
+                    </span>
+                  </button>
+                ))
+              )}
+            </div>
+          )}
 
           <TicketTablePagination
             pageSize={pageSize}

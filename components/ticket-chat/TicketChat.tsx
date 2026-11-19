@@ -172,7 +172,13 @@ export default function TicketChat({
   ticketId,
   className = "",
 }: TicketChatProps) {
-  return <TicketChatSession key={ticketId} ticketId={ticketId} className={className} />;
+  return (
+    <TicketChatSession
+      key={ticketId}
+      ticketId={ticketId}
+      className={className}
+    />
+  );
 }
 
 function TicketChatSession({ ticketId, className = "" }: TicketChatProps) {
@@ -182,7 +188,9 @@ function TicketChatSession({ ticketId, className = "" }: TicketChatProps) {
   const [sendError, setSendError] = useState<string | null>(() =>
     isDemoMode()
       ? "O chat em tempo real não está disponível no modo demonstração."
-      : getStoredToken() ? null : "Sua sessão expirou. Faça login novamente.",
+      : getStoredToken()
+        ? null
+        : "Sua sessão expirou. Faça login novamente.",
   );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -223,9 +231,13 @@ function TicketChatSession({ ticketId, className = "" }: TicketChatProps) {
     try {
       socket = io(`${apiOrigin()}/ticket-chat`, { auth: { token } });
     } catch (error) {
-      queueMicrotask(() => setSendError(
-        error instanceof Error ? error.message : "Não foi possível conectar ao chat.",
-      ));
+      queueMicrotask(() =>
+        setSendError(
+          error instanceof Error
+            ? error.message
+            : "Não foi possível conectar ao chat.",
+        ),
+      );
       return;
     }
     socketRef.current = socket;

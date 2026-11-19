@@ -47,13 +47,25 @@ export default function Header() {
           id="mobile-primary-navigation"
           className={`${isMobileMenuOpen ? "flex" : "hidden"} order-3 w-full flex-col items-stretch gap-1 border-t border-white/15 pt-2 min-[1101px]:absolute min-[1101px]:left-1/2 min-[1101px]:order-none min-[1101px]:flex min-[1101px]:w-auto min-[1101px]:-translate-x-1/2 min-[1101px]:flex-row min-[1101px]:items-center min-[1101px]:gap-8 min-[1101px]:border-0 min-[1101px]:pt-0`}
         >
-          <a href="#inicio" onClick={() => setIsMobileMenuOpen(false)} className={navLink}>
+          <a
+            href="#inicio"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={navLink}
+          >
             Início
           </a>
-          <a href="#funcionalidades" onClick={() => setIsMobileMenuOpen(false)} className={navLink}>
+          <a
+            href="#funcionalidades"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={navLink}
+          >
             Funcionalidades
           </a>
-          <a href="#demonstracao" onClick={() => setIsMobileMenuOpen(false)} className={navLink}>
+          <a
+            href="#demonstracao"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={navLink}
+          >
             Demonstração
           </a>
         </nav>

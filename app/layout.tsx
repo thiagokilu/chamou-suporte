@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: "Gerencie tickets de suporte.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="pt-BR"

@@ -217,12 +217,21 @@ export default function UsuariosClient() {
           {!isLoading && !error && filteredUsers.length > 0 && (
             <ul className="divide-y divide-[#E6ECE7] sm:hidden">
               {filteredUsers.map((user) => (
-                <li key={user.id} className="flex min-w-0 items-start justify-between gap-3 px-4 py-4">
+                <li
+                  key={user.id}
+                  className="flex min-w-0 items-start justify-between gap-3 px-4 py-4"
+                >
                   <div className="min-w-0">
-                    <p className="break-words text-sm font-semibold text-[#10241A]">{user.username}</p>
-                    <p className="mt-1 break-all text-xs text-[#3F5248]">{user.email}</p>
+                    <p className="break-words text-sm font-semibold text-[#10241A]">
+                      {user.username}
+                    </p>
+                    <p className="mt-1 break-all text-xs text-[#3F5248]">
+                      {user.email}
+                    </p>
                     {!isDemo && (
-                      <span className={`mt-2 inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${getRoleColor(user.role)}`}>
+                      <span
+                        className={`mt-2 inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${getRoleColor(user.role)}`}
+                      >
                         {getRoleLabel(user.role)}
                       </span>
                     )}
