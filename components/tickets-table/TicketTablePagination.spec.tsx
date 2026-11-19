@@ -39,13 +39,21 @@ describe("TicketTablePagination", () => {
 
   it("desabilita anterior na primeira página e próxima na última", () => {
     renderPagination({ currentPage: 1 });
-    expect(screen.getByRole("button", { name: /página anterior/i })).toBeDisabled();
-    expect(screen.getByRole("button", { name: /próxima página/i })).toBeEnabled();
+    expect(
+      screen.getByRole("button", { name: /página anterior/i }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: /próxima página/i }),
+    ).toBeEnabled();
     cleanup();
 
     renderPagination({ currentPage: 5 });
-    expect(screen.getByRole("button", { name: /página anterior/i })).toBeEnabled();
-    expect(screen.getByRole("button", { name: /próxima página/i })).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: /página anterior/i }),
+    ).toBeEnabled();
+    expect(
+      screen.getByRole("button", { name: /próxima página/i }),
+    ).toBeDisabled();
   });
 
   it("notifica a mudança de itens por página", () => {

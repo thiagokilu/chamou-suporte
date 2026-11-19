@@ -17,11 +17,7 @@ export class TicketsRequestError extends Error {
 }
 
 export type TicketStatus =
-  | "OPEN"
-  | "IN_PROGRESS"
-  | "WAITING_FOR_CUSTOMER"
-  | "RESOLVED"
-  | "CLOSED";
+  "OPEN" | "IN_PROGRESS" | "WAITING_FOR_CUSTOMER" | "RESOLVED" | "CLOSED";
 
 export type TicketPriority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
 
@@ -109,7 +105,8 @@ export function mapApiTicket(ticket: ApiTicket): Ticket {
     descricao: ticket.description,
     status: statusLabels[ticket.status],
     prioridade: priorityLabels[ticket.priority],
-    cliente: ticket.requester?.username ?? ticket.requester?.email ?? "Não informado",
+    cliente:
+      ticket.requester?.username ?? ticket.requester?.email ?? "Não informado",
     agente: assignedTo,
     dataCriacao: ticket.created_at,
     dataAtualizacao: ticket.updated_at,
@@ -118,20 +115,31 @@ export function mapApiTicket(ticket: ApiTicket): Ticket {
 
 export async function getTickets(
   params: GetTicketsParams = {},
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<GetTicketsResponse> {
   if (isDemoMode()) {
-    const filtered = MOCK_TICKETS.filter((ticket) =>
-      (!params.status || ticket.status === params.status) &&
-      (!params.priority || ticket.priority === params.priority) &&
-      (!params.name || `${ticket.title} ${ticket.description}`.toLowerCase().includes(params.name.toLowerCase()))
+    const filtered = MOCK_TICKETS.filter(
+      (ticket) =>
+        (!params.status || ticket.status === params.status) &&
+        (!params.priority || ticket.priority === params.priority) &&
+        (!params.name ||
+          `${ticket.title} ${ticket.description}`
+            .toLowerCase()
+            .includes(params.name.toLowerCase())),
     );
     const page = params.page ?? 1;
     const perPage = params.perPage ?? filtered.length;
     const start = (page - 1) * perPage;
     return {
       data: filtered.slice(start, start + perPage),
-      meta: { total: filtered.length, lastPage: Math.max(1, Math.ceil(filtered.length / perPage)), currentPage: page, perPage, prev: page > 1 ? page - 1 : null, next: start + perPage < filtered.length ? page + 1 : null },
+      meta: {
+        total: filtered.length,
+        lastPage: Math.max(1, Math.ceil(filtered.length / perPage)),
+        currentPage: page,
+        perPage,
+        prev: page > 1 ? page - 1 : null,
+        next: start + perPage < filtered.length ? page + 1 : null,
+      },
     };
   }
 
@@ -152,7 +160,10 @@ export async function getTickets(
 
   if (response.status < 200 || response.status >= 300) {
     if (response.status === 401) {
-      throw new TicketsRequestError("Sua sessão expirou. Faça login novamente.", response.status);
+      throw new TicketsRequestError(
+        "Sua sessão expirou. Faça login novamente.",
+        response.status,
+      );
     }
 
     throw new TicketsRequestError(
@@ -164,10 +175,27 @@ export async function getTickets(
   return response.data;
 }
 
-export async function createTicket(input: CreateTicketInput): Promise<ApiTicket> {
+export async function createTicket(
+  input: CreateTicketInput,
+): Promise<ApiTicket> {
   if (isDemoMode()) {
     const now = new Date().toISOString();
-    return { id: `demo-${Date.now()}`, title: input.title, description: input.description, status: "OPEN", priority: input.priority, requester: { id: "demo-admin", username: "Administrador Demo", email: "admin@demo.com", role: "ADMIN" }, assigned_to: null, created_at: now, updated_at: now };
+    return {
+      id: `demo-${Date.now()}`,
+      title: input.title,
+      description: input.description,
+      status: "OPEN",
+      priority: input.priority,
+      requester: {
+        id: "demo-admin",
+        username: "Administrador Demo",
+        email: "admin@demo.com",
+        role: "ADMIN",
+      },
+      assigned_to: null,
+      created_at: now,
+      updated_at: now,
+    };
   }
 
   const token = getStoredToken();
@@ -186,7 +214,10 @@ export async function createTicket(input: CreateTicketInput): Promise<ApiTicket>
 
   if (response.status < 200 || response.status >= 300) {
     if (response.status === 401) {
-      throw new TicketsRequestError("Sua sessão expirou. Faça login novamente.", response.status);
+      throw new TicketsRequestError(
+        "Sua sessão expirou. Faça login novamente.",
+        response.status,
+      );
     }
 
     throw new TicketsRequestError(

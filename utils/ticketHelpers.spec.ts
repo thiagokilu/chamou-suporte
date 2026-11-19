@@ -61,7 +61,9 @@ describe("getInitials", () => {
 describe("getAvatarColor", () => {
   it("retorna uma cor da paleta de forma determinística", () => {
     const color = getAvatarColor("João Silva");
-    expect(color).toMatch(/^bg-(violet|blue|emerald|rose|amber|cyan|pink|indigo)-700$/);
+    expect(color).toMatch(
+      /^bg-(violet|blue|emerald|rose|amber|cyan|pink|indigo)-700$/,
+    );
     expect(getAvatarColor("João Silva")).toBe(color);
   });
 });

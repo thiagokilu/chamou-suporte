@@ -37,7 +37,10 @@ export async function updateTicket(
       ...(current ?? {}),
       id,
       title: input.title ?? current?.title ?? "Chamado de demonstração",
-      description: input.description ?? current?.description ?? "Atualização simulada no modo de demonstração.",
+      description:
+        input.description ??
+        current?.description ??
+        "Atualização simulada no modo de demonstração.",
       status: input.status ?? current?.status ?? "OPEN",
       priority: input.priority ?? current?.priority ?? "MEDIUM",
       created_at: current?.created_at ?? new Date().toISOString(),
@@ -67,7 +70,10 @@ export async function updateTicket(
 
   if (response.status < 200 || response.status >= 300) {
     if (response.status === 401) {
-      throw new TicketsRequestError("Sua sessão expirou. Faça login novamente.", response.status);
+      throw new TicketsRequestError(
+        "Sua sessão expirou. Faça login novamente.",
+        response.status,
+      );
     }
 
     throw new TicketsRequestError(

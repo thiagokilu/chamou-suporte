@@ -251,7 +251,9 @@ export function TicketFilters({
               <span className="font-semibold text-zinc-100 tabular-nums">
                 {filteredCount}
               </span>{" "}
-              {filteredCount === 1 ? "ticket encontrado" : "tickets encontrados"}
+              {filteredCount === 1
+                ? "ticket encontrado"
+                : "tickets encontrados"}
             </p>
             {hasActiveFilters && (
               <button

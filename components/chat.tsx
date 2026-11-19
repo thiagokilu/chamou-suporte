@@ -14,7 +14,15 @@ function getAssistantText(payload: unknown): string {
   if (!payload || typeof payload !== "object") return "";
 
   const data = payload as Record<string, unknown>;
-  for (const key of ["reply", "answer", "response", "message", "output_text", "content", "output"]) {
+  for (const key of [
+    "reply",
+    "answer",
+    "response",
+    "message",
+    "output_text",
+    "content",
+    "output",
+  ]) {
     const value = data[key];
     if (typeof value === "string" && value.trim()) return value;
   }
@@ -41,7 +49,10 @@ export default function ChatModal() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastSent, setLastSent] = useState<{ text: string; history: ChatHistory } | null>(null);
+  const [lastSent, setLastSent] = useState<{
+    text: string;
+    history: ChatHistory;
+  } | null>(null);
 
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -58,38 +69,44 @@ export default function ChatModal() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const send = useCallback(async (text: string, history: ChatHistory, addToList = true) => {
-    setError(null);
-    setLoading(true);
-    setLastSent({ text, history });
-    if (addToList) {
-      setMessages((m) => [...m, { id: uid(), role: "user", text }]);
-    }
-
-    try {
-      const response = await PostchatIa<unknown>(text, history);
-      const answer = getAssistantText(response);
-
-      if (!answer.trim()) {
-        setError("A resposta da API não contém um texto reconhecido.");
-        return;
+  const send = useCallback(
+    async (text: string, history: ChatHistory, addToList = true) => {
+      setError(null);
+      setLoading(true);
+      setLastSent({ text, history });
+      if (addToList) {
+        setMessages((m) => [...m, { id: uid(), role: "user", text }]);
       }
 
-      setMessages((m) => [...m, { id: uid(), role: "assistant", text: answer }]);
-    } catch (requestError) {
-      console.error(requestError);
-      setError("Sem conexão com o chat. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+      try {
+        const response = await PostchatIa<unknown>(text, history);
+        const answer = getAssistantText(response);
+
+        if (!answer.trim()) {
+          setError("A resposta da API não contém um texto reconhecido.");
+          return;
+        }
+
+        setMessages((m) => [
+          ...m,
+          { id: uid(), role: "assistant", text: answer },
+        ]);
+      } catch (requestError) {
+        console.error(requestError);
+        setError("Sem conexão com o chat. Tente novamente.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [],
+  );
 
   const submit = () => {
     const text = input.trim();
     if (!text || loading) return;
     setInput("");
     const history = messages.map(({ role, text }) => ({
-      role: role === "assistant" ? "model" as const : "user" as const,
+      role: role === "assistant" ? ("model" as const) : ("user" as const),
       text,
     }));
     send(text, history);
@@ -142,17 +159,21 @@ export default function ChatModal() {
               )}
 
               {messages.map((m) => (
-                  <div
-                    key={m.id}
-                    className={
-                      "max-w-[82%] break-words rounded-2xl px-3.5 py-2 " +
-                      (m.role === "user"
-                        ? "self-end whitespace-pre-wrap rounded-br-sm bg-[#15803D] text-white"
-                        : "self-start rounded-bl-sm border border-[#D8E1DA] bg-[#F2F6F3] text-[#10241A]")
-                    }
-                  >
-                    {m.role === "assistant" ? <Markdown>{m.text}</Markdown> : m.text}
-                  </div>
+                <div
+                  key={m.id}
+                  className={
+                    "max-w-[82%] break-words rounded-2xl px-3.5 py-2 " +
+                    (m.role === "user"
+                      ? "self-end whitespace-pre-wrap rounded-br-sm bg-[#15803D] text-white"
+                      : "self-start rounded-bl-sm border border-[#D8E1DA] bg-[#F2F6F3] text-[#10241A]")
+                  }
+                >
+                  {m.role === "assistant" ? (
+                    <Markdown>{m.text}</Markdown>
+                  ) : (
+                    m.text
+                  )}
+                </div>
               ))}
 
               {loading && (
@@ -168,7 +189,9 @@ export default function ChatModal() {
                   <span>{error}</span>
                   {lastSent && (
                     <button
-                      onClick={() => send(lastSent.text, lastSent.history, false)}
+                      onClick={() =>
+                        send(lastSent.text, lastSent.history, false)
+                      }
                       className="shrink-0 rounded-lg border border-rose-300 px-2 py-0.5 text-rose-900 transition-colors hover:bg-rose-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] motion-reduce:transition-none"
                     >
                       Tentar de novo

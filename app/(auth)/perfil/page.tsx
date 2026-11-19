@@ -20,7 +20,8 @@ const initialProfile: UserProfile = {
 
 export default function EditProfilePage() {
   const [profile, setProfile] = useState<UserProfile>(initialProfile);
-  const [originalProfile, setOriginalProfile] = useState<UserProfile>(initialProfile);
+  const [originalProfile, setOriginalProfile] =
+    useState<UserProfile>(initialProfile);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -66,7 +67,9 @@ export default function EditProfilePage() {
     } catch (error) {
       console.error("Erro ao atualizar perfil:", error);
       setShowError(true);
-      setErrorMessage(error instanceof Error ? error.message : "Erro ao atualizar perfil");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Erro ao atualizar perfil",
+      );
       setTimeout(() => setShowError(false), 5000);
     }
   };
@@ -100,9 +103,7 @@ export default function EditProfilePage() {
         {showError && (
           <div className="mb-6 flex items-center gap-3 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3">
             <LuX aria-hidden="true" className="text-rose-800" />
-            <p className="text-sm text-rose-900">
-              {errorMessage}
-            </p>
+            <p className="text-sm text-rose-900">{errorMessage}</p>
           </div>
         )}
 
@@ -184,7 +185,9 @@ export default function EditProfilePage() {
                   Cargo
                 </label>
                 <div className="flex items-center gap-2">
-                  <span className={`inline-flex rounded-full px-3 py-1.5 text-sm font-medium ${getRoleColor(profile.role)}`}>
+                  <span
+                    className={`inline-flex rounded-full px-3 py-1.5 text-sm font-medium ${getRoleColor(profile.role)}`}
+                  >
                     {profile.role}
                   </span>
                 </div>

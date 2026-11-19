@@ -11,7 +11,7 @@ export interface UpdateProfilePayload {
 
 export async function updateProfile<T>(
   username: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<T> {
   if (isDemoMode()) return { success: true, username } as T;
 
@@ -32,11 +32,13 @@ export async function updateProfile<T>(
       },
       signal,
       validateStatus: () => true,
-    }
+    },
   );
 
   if (response.status < 200 || response.status >= 300) {
-    throw new Error(`Não foi possível atualizar o perfil (${response.status}).`);
+    throw new Error(
+      `Não foi possível atualizar o perfil (${response.status}).`,
+    );
   }
 
   return response.data;

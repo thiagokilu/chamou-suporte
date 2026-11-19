@@ -51,8 +51,12 @@ export function TicketRow({ ticket }: TicketRowProps) {
 
       {/* Assunto */}
       <td className="max-w-[260px] px-4 py-3.5">
-        <div className="font-medium text-zinc-50 leading-snug">{ticket.titulo}</div>
-        <div className="mt-0.5 truncate text-xs text-zinc-500">{ticket.descricao}</div>
+        <div className="font-medium text-zinc-50 leading-snug">
+          {ticket.titulo}
+        </div>
+        <div className="mt-0.5 truncate text-xs text-zinc-500">
+          {ticket.descricao}
+        </div>
       </td>
 
       {/* Cliente */}
@@ -79,7 +83,7 @@ export function TicketRow({ ticket }: TicketRowProps) {
       <td className="px-4 py-3.5">
         <span
           className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${getPrioridadeColor(
-            ticket.prioridade
+            ticket.prioridade,
           )}`}
         >
           {ticket.prioridade}
@@ -90,10 +94,12 @@ export function TicketRow({ ticket }: TicketRowProps) {
       <td className="px-4 py-3.5">
         <span
           className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium ${getStatusColor(
-            ticket.status
+            ticket.status,
           )}`}
         >
-          <span className={`h-1.5 w-1.5 rounded-full ${getStatusDot(ticket.status)}`} />
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${getStatusDot(ticket.status)}`}
+          />
           {ticket.status}
         </span>
       </td>

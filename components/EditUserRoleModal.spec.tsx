@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/http/auth/updateRole", () => ({ updateRole: vi.fn() }));
@@ -64,7 +70,9 @@ describe("EditUserRoleModal", () => {
     render(<EditUserRoleModal user={user} {...props} />);
     fireEvent.click(screen.getByRole("button", { name: /salvar alterações/i }));
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("Sem permissão.");
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Sem permissão.",
+    );
     expect(props.onSaved).not.toHaveBeenCalled();
   });
 

@@ -21,39 +21,39 @@ Idioma da interface: português brasileiro (PT-BR).
 
 ### Paleta principal
 
-| Nome | Hex | Uso |
-|---|---|---|
-| Verde profundo | `#0F3D2A` | Títulos, lateral, rodapé, texto sobre fundos claros |
-| Verde de ação | `#15803D` | Botão primário, foco, linhas de progresso |
-| Verde de ação (hover) | `#116A32` | Hover do botão primário |
-| Menta | `#DDF3E4` | Fundo de ícones, hover do botão contorno, avatares |
-| Fundo da página | `#F5F7F4` | Fundo geral (claro) |
-| Tinta | `#10241A` | Texto principal |
+| Nome                  | Hex       | Uso                                                 |
+| --------------------- | --------- | --------------------------------------------------- |
+| Verde profundo        | `#0F3D2A` | Títulos, lateral, rodapé, texto sobre fundos claros |
+| Verde de ação         | `#15803D` | Botão primário, foco, linhas de progresso           |
+| Verde de ação (hover) | `#116A32` | Hover do botão primário                             |
+| Menta                 | `#DDF3E4` | Fundo de ícones, hover do botão contorno, avatares  |
+| Fundo da página       | `#F5F7F4` | Fundo geral (claro)                                 |
+| Tinta                 | `#10241A` | Texto principal                                     |
 
 ### Apoio
 
-| Nome | Hex | Uso |
-|---|---|---|
-| Texto secundário | `#4B5E54` | Descrições, rótulos, navegação |
-| Texto de parágrafo | `#3F5248` | Parágrafos de destaque (hero) |
-| Linha | `#D8E1DA` | Bordas de cartões e do header |
-| Linha suave | `#E6ECE7` | Divisores internos de listas |
-| Superfície suave | `#F2F6F3` | Balões de mensagem recebida |
-| Verde mais escuro | `#0A2A1D` | Texto sobre verde-claro, tooltips |
-| Verde-claro de destaque | `#34D399` (emerald-400) | Botão "Novo chamado" e selos na lateral |
-| Verde-claro (hover) | `#6EE7B7` (emerald-300) | Hover do destaque, anel de foco sobre fundo escuro |
-| Verde quase branco | `#ECFDF5` (emerald-50) | Item ativo e texto na lateral |
+| Nome                    | Hex                     | Uso                                                |
+| ----------------------- | ----------------------- | -------------------------------------------------- |
+| Texto secundário        | `#4B5E54`               | Descrições, rótulos, navegação                     |
+| Texto de parágrafo      | `#3F5248`               | Parágrafos de destaque (hero)                      |
+| Linha                   | `#D8E1DA`               | Bordas de cartões e do header                      |
+| Linha suave             | `#E6ECE7`               | Divisores internos de listas                       |
+| Superfície suave        | `#F2F6F3`               | Balões de mensagem recebida                        |
+| Verde mais escuro       | `#0A2A1D`               | Texto sobre verde-claro, tooltips                  |
+| Verde-claro de destaque | `#34D399` (emerald-400) | Botão "Novo chamado" e selos na lateral            |
+| Verde-claro (hover)     | `#6EE7B7` (emerald-300) | Hover do destaque, anel de foco sobre fundo escuro |
+| Verde quase branco      | `#ECFDF5` (emerald-50)  | Item ativo e texto na lateral                      |
 
 ### Prioridades
 
 Sempre acompanhadas do texto (nunca só cor).
 
-| Prioridade | Classes Tailwind |
-|---|---|
-| Baixa | `bg-emerald-100 text-emerald-900` |
-| Média | `bg-sky-100 text-sky-900` |
-| Alta | `bg-amber-100 text-amber-900` |
-| Urgente | `bg-rose-100 text-rose-900` |
+| Prioridade | Classes Tailwind                  |
+| ---------- | --------------------------------- |
+| Baixa      | `bg-emerald-100 text-emerald-900` |
+| Média      | `bg-sky-100 text-sky-900`         |
+| Alta       | `bg-amber-100 text-amber-900`     |
+| Urgente    | `bg-rose-100 text-rose-900`       |
 
 ### Ação destrutiva
 
@@ -63,16 +63,16 @@ Sair e excluir usam vermelho só no hover/estado de confirmação (`hover:bg-red
 
 ```css
 :root {
-  --ch-green-deep: #0F3D2A;
-  --ch-green: #15803D;
-  --ch-green-hover: #116A32;
-  --ch-mint: #DDF3E4;
-  --ch-bg: #F5F7F4;
-  --ch-ink: #10241A;
-  --ch-muted: #4B5E54;
-  --ch-line: #D8E1DA;
-  --ch-line-soft: #E6ECE7;
-  --ch-accent: #34D399;
+  --ch-green-deep: #0f3d2a;
+  --ch-green: #15803d;
+  --ch-green-hover: #116a32;
+  --ch-mint: #ddf3e4;
+  --ch-bg: #f5f7f4;
+  --ch-ink: #10241a;
+  --ch-muted: #4b5e54;
+  --ch-line: #d8e1da;
+  --ch-line-soft: #e6ece7;
+  --ch-accent: #34d399;
 }
 ```
 
@@ -82,30 +82,39 @@ Sair e excluir usam vermelho só no hover/estado de confirmação (`hover:bg-red
 
 Duas famílias, bem distintas, carregadas com `next/font/google`.
 
-| Papel | Fonte | Pesos |
-|---|---|---|
-| Títulos e marca | **Bricolage Grotesque** | 600, 700, 800 |
-| Texto de interface | **Public Sans** | 400, 500, 600 |
+| Papel              | Fonte                   | Pesos         |
+| ------------------ | ----------------------- | ------------- |
+| Títulos e marca    | **Bricolage Grotesque** | 600, 700, 800 |
+| Texto de interface | **Public Sans**         | 400, 500, 600 |
 
 ```tsx
 import { Bricolage_Grotesque, Public_Sans } from "next/font/google";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], weight: ["600", "700", "800"], display: "swap" });
-const body = Public_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
+const display = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  display: "swap",
+});
+const body = Public_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
 ```
 
 ### Escala
 
-| Elemento | Classes |
-|---|---|
-| Título do hero | `text-[2.75rem] sm:text-6xl lg:text-7xl font-extrabold leading-[1.02] tracking-tight` (display) |
-| Título de seção | `text-3xl sm:text-4xl font-bold leading-tight tracking-tight` (display) |
-| Título de item/cartão | `text-lg` ou `text-xl font-bold` (display) |
-| Parágrafo de destaque | `text-lg leading-relaxed` |
-| Texto de interface | `text-sm font-medium` |
-| Texto auxiliar | `text-xs font-medium` |
+| Elemento              | Classes                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| Título do hero        | `text-[2.75rem] sm:text-6xl lg:text-7xl font-extrabold leading-[1.02] tracking-tight` (display) |
+| Título de seção       | `text-3xl sm:text-4xl font-bold leading-tight tracking-tight` (display)                         |
+| Título de item/cartão | `text-lg` ou `text-xl font-bold` (display)                                                      |
+| Parágrafo de destaque | `text-lg leading-relaxed`                                                                       |
+| Texto de interface    | `text-sm font-medium`                                                                           |
+| Texto auxiliar        | `text-xs font-medium`                                                                           |
 
 Regras:
+
 - Linhas de texto com no máximo ~80 caracteres (`max-w-sm`, `max-w-[34rem]`).
 - Evite caixa alta em rótulos e evite destacar só uma palavra de um título com cor ou itálico.
 - Use `tabular-nums` em números de contagem (selos).
@@ -170,19 +179,20 @@ const btnContorno = `inline-flex items-center justify-center rounded-lg border b
 
 ### Sidebar (dashboard)
 
-| Estado | Estilo |
-|---|---|
-| Fundo | `bg-[#0F3D2A]`, texto `emerald-50` |
-| Largura | `w-64` expandida, `lg:w-20` recolhida |
-| Item padrão | `text-emerald-50/80 hover:bg-white/10 hover:text-white` |
-| Item ativo | `bg-emerald-50 text-[#0F3D2A]` + `aria-current="page"` |
-| Botão "Novo chamado" | `bg-emerald-400 text-[#0A2A1D] hover:bg-emerald-300` |
-| Selo de contagem | `bg-emerald-400 text-[#0A2A1D]` (invertido no item ativo) |
-| Cartão de usuário | `bg-black/20 rounded-xl`, avatar com iniciais em `bg-emerald-100` |
-| Tooltip (recolhida) | `bg-[#0A2A1D] text-white rounded-md` |
-| Foco | `ring-2 ring-emerald-300` |
+| Estado               | Estilo                                                            |
+| -------------------- | ----------------------------------------------------------------- |
+| Fundo                | `bg-[#0F3D2A]`, texto `emerald-50`                                |
+| Largura              | `w-64` expandida, `lg:w-20` recolhida                             |
+| Item padrão          | `text-emerald-50/80 hover:bg-white/10 hover:text-white`           |
+| Item ativo           | `bg-emerald-50 text-[#0F3D2A]` + `aria-current="page"`            |
+| Botão "Novo chamado" | `bg-emerald-400 text-[#0A2A1D] hover:bg-emerald-300`              |
+| Selo de contagem     | `bg-emerald-400 text-[#0A2A1D]` (invertido no item ativo)         |
+| Cartão de usuário    | `bg-black/20 rounded-xl`, avatar com iniciais em `bg-emerald-100` |
+| Tooltip (recolhida)  | `bg-[#0A2A1D] text-white rounded-md`                              |
+| Foco                 | `ring-2 ring-emerald-300`                                         |
 
 Comportamentos:
+
 - No desktop, botão circular na borda recolhe e expande; a escolha fica salva em `localStorage` (`chamou:sidebar-collapsed`).
 - A largura é publicada em `--sidebar-w`. O conteúdo usa `lg:pl-[var(--sidebar-w,16rem)]`.
 - No mobile e tablet: barra superior verde com botão de menu e gaveta lateral. Fecha com clique no fundo, `Esc` ou ao navegar.
@@ -214,11 +224,11 @@ Comportamentos:
 
 ## 7. Responsividade
 
-| Largura | Comportamento |
-|---|---|
+| Largura         | Comportamento                                                                                            |
+| --------------- | -------------------------------------------------------------------------------------------------------- |
 | Mobile (`< md`) | Navegação do header oculta, botões compactos, hero em uma coluna, botões empilhados, sidebar como gaveta |
-| Tablet (`md`) | Navegação do header visível |
-| Desktop (`lg`+) | Hero em duas colunas, funcionalidades em duas colunas, sidebar fixa e recolhível |
+| Tablet (`md`)   | Navegação do header visível                                                                              |
+| Desktop (`lg`+) | Hero em duas colunas, funcionalidades em duas colunas, sidebar fixa e recolhível                         |
 
 Conteúdo ao lado da sidebar: `pt-14 lg:pt-0 lg:pl-[var(--sidebar-w,16rem)]`.
 
@@ -247,14 +257,14 @@ Conteúdo ao lado da sidebar: `pt-14 lg:pt-0 lg:pl-[var(--sidebar-w,16rem)]`.
 
 ### Vocabulário fixo
 
-| Use | Evite |
-|---|---|
+| Use                                          | Evite                        |
+| -------------------------------------------- | ---------------------------- |
 | Chamado / Ticket (só em menus já existentes) | Solicitação genérica, pedido |
-| Entrar | Login, Acessar |
-| Criar conta | Cadastrar-se, Registrar |
-| Sair | Logout |
-| Em atendimento | Em progresso |
-| Resolvido | Finalizado, Fechado |
+| Entrar                                       | Login, Acessar               |
+| Criar conta                                  | Cadastrar-se, Registrar      |
+| Sair                                         | Logout                       |
+| Em atendimento                               | Em progresso                 |
+| Resolvido                                    | Finalizado, Fechado          |
 
 ---
 

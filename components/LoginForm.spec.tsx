@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const { pushMock } = vi.hoisted(() => ({ pushMock: vi.fn() }));
@@ -23,8 +29,12 @@ afterEach(() => {
 });
 
 function fillAndSubmit(email: string, password: string) {
-  fireEvent.change(screen.getByLabelText(/email/i), { target: { value: email } });
-  fireEvent.change(screen.getByLabelText(/^senha/i), { target: { value: password } });
+  fireEvent.change(screen.getByLabelText(/email/i), {
+    target: { value: email },
+  });
+  fireEvent.change(screen.getByLabelText(/^senha/i), {
+    target: { value: password },
+  });
   fireEvent.click(screen.getByRole("button", { name: /entrar/i }));
 }
 
@@ -33,7 +43,12 @@ describe("LoginForm", () => {
 
   it("should call login with the form data and redirect on success", async () => {
     vi.mocked(login).mockResolvedValue({ token: "test-token" } as never);
-    vi.mocked(getMe).mockResolvedValue({ id: "client-1", name: "Cliente", email: "user@email.com", role: "CLIENT" } as never);
+    vi.mocked(getMe).mockResolvedValue({
+      id: "client-1",
+      name: "Cliente",
+      email: "user@email.com",
+      role: "CLIENT",
+    } as never);
 
     render(<LoginForm />);
     fillAndSubmit("user@email.com", "123456");
@@ -52,7 +67,9 @@ describe("LoginForm", () => {
     render(<LoginForm />);
     fillAndSubmit("user@email.com", "wrongpassword");
 
-    expect(await screen.findByText(/credenciais inválidas|erro/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/credenciais inválidas|erro/i),
+    ).toBeInTheDocument();
     expect(pushMock).not.toHaveBeenCalled();
   });
 });

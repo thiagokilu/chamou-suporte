@@ -1,16 +1,28 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 
-const { pathnameMock } = vi.hoisted(() => ({ pathnameMock: vi.fn(() => "/admin") }));
+const { pathnameMock } = vi.hoisted(() => ({
+  pathnameMock: vi.fn(() => "/admin"),
+}));
 
 vi.mock("next/navigation", () => ({
   usePathname: () => pathnameMock(),
 }));
 
 vi.mock("next/link", () => ({
-  default: ({ href, children, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode }) => (
+  default: ({
+    href,
+    children,
+    ...rest
+  }: AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode }) => (
     <a href={typeof href === "string" ? href : "#"} {...rest}>
       {children}
     </a>
@@ -35,8 +47,18 @@ import { Logout } from "@/lib/http/auth/logout";
 import { getStoredUser, setStoredUser } from "@/lib/auth";
 import { SideBarMenu } from "./SideBarMenu";
 
-const admin = { id: "a1", name: "Ana Admin", email: "ana@x.com", role: "ADMIN" as const };
-const client = { id: "c1", name: "Beto Client", email: "beto@x.com", role: "CLIENT" as const };
+const admin = {
+  id: "a1",
+  name: "Ana Admin",
+  email: "ana@x.com",
+  role: "ADMIN" as const,
+};
+const client = {
+  id: "c1",
+  name: "Beto Client",
+  email: "beto@x.com",
+  role: "CLIENT" as const,
+};
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -58,7 +80,9 @@ describe("SideBarMenu", () => {
   it("oculta o item Usuários para cliente", () => {
     pathnameMock.mockReturnValue("/client");
     render(<SideBarMenu user={client} />);
-    expect(screen.queryByRole("link", { name: /usuários/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /usuários/i }),
+    ).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /tickets/i })).toBeInTheDocument();
   });
 
@@ -73,7 +97,9 @@ describe("SideBarMenu", () => {
     const toggle = screen.getByRole("button", { name: /recolher menu/i });
     fireEvent.click(toggle);
 
-    expect(screen.getByRole("button", { name: /expandir menu/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /expandir menu/i }),
+    ).toBeInTheDocument();
     expect(localStorage.getItem("chamou:sidebar-collapsed")).toBe("1");
 
     fireEvent.click(screen.getByRole("button", { name: /expandir menu/i }));

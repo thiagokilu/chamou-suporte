@@ -13,7 +13,7 @@ export const DEMO_TOKEN = "demo-token";
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value)
-    ? value as Record<string, unknown>
+    ? (value as Record<string, unknown>)
     : null;
 }
 
@@ -30,20 +30,35 @@ export function normalizeUser(value: unknown): User | null {
   }
   if (!candidate) return null;
 
-  const id = candidate.id ?? candidate.userId ?? candidate.user_id ?? candidate._id ?? candidate.sub;
+  const id =
+    candidate.id ??
+    candidate.userId ??
+    candidate.user_id ??
+    candidate._id ??
+    candidate.sub;
   const emailValue = candidate.email ?? candidate.mail;
   const email = typeof emailValue === "string" ? emailValue.trim() : "";
-  const nameValue = [candidate.name, candidate.username, candidate.nome, candidate.fullName, candidate.full_name, candidate.displayName]
-    .find((item) => typeof item === "string" && item.trim() && item.trim() !== email);
+  const nameValue = [
+    candidate.name,
+    candidate.username,
+    candidate.nome,
+    candidate.fullName,
+    candidate.full_name,
+    candidate.displayName,
+  ].find(
+    (item) => typeof item === "string" && item.trim() && item.trim() !== email,
+  );
   const roleValue = candidate.role ?? candidate.userRole ?? candidate.user_role;
   const role = typeof roleValue === "string" ? roleValue.toUpperCase() : null;
 
   if ((typeof id !== "string" && typeof id !== "number") || !email) return null;
-  if (role !== null && !["ADMIN", "AGENT", "CLIENT"].includes(role)) return null;
+  if (role !== null && !["ADMIN", "AGENT", "CLIENT"].includes(role))
+    return null;
 
   return {
     id: String(id),
-    name: typeof nameValue === "string" ? nameValue.trim() : email.split("@")[0],
+    name:
+      typeof nameValue === "string" ? nameValue.trim() : email.split("@")[0],
     email,
     role: role as UserRole,
   };
@@ -57,7 +72,11 @@ export function getStoredToken(): string | null {
   return cookie ? decodeURIComponent(cookie.slice(TOKEN_KEY.length + 1)) : null;
 }
 
-export function getUserFromToken(): { id: string; email?: string; role?: string | null } | null {
+export function getUserFromToken(): {
+  id: string;
+  email?: string;
+  role?: string | null;
+} | null {
   const token = getStoredToken();
   if (!token) return null;
 
@@ -65,19 +84,30 @@ export function getUserFromToken(): { id: string; email?: string; role?: string 
     const encodedPayload = token.split(".")[1];
     if (!encodedPayload) return null;
     const base64 = encodedPayload.replace(/-/g, "+").replace(/_/g, "/");
-    const payload: unknown = JSON.parse(atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, "=")));
+    const payload: unknown = JSON.parse(
+      atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, "=")),
+    );
     if (!payload || typeof payload !== "object") return null;
 
     const claims = payload as Record<string, unknown>;
-    const id = claims.sub ?? claims.id ?? claims.userId ?? claims.user_id ?? claims.uid;
+    const id =
+      claims.sub ?? claims.id ?? claims.userId ?? claims.user_id ?? claims.uid;
     if (typeof id !== "string" && typeof id !== "number") return null;
 
     return {
       id: String(id),
-      email: typeof claims.email === "string" ? claims.email : typeof claims.mail === "string" ? claims.mail : undefined,
-      role: typeof (claims.role ?? claims.userRole ?? claims.user_role) === "string"
-        ? String(claims.role ?? claims.userRole ?? claims.user_role).toUpperCase()
-        : null,
+      email:
+        typeof claims.email === "string"
+          ? claims.email
+          : typeof claims.mail === "string"
+            ? claims.mail
+            : undefined,
+      role:
+        typeof (claims.role ?? claims.userRole ?? claims.user_role) === "string"
+          ? String(
+              claims.role ?? claims.userRole ?? claims.user_role,
+            ).toUpperCase()
+          : null,
     };
   } catch {
     return null;

@@ -4,9 +4,17 @@ import { useState, useRef, useEffect } from "react";
 import { Send, Paperclip, CheckCheck } from "lucide-react";
 import { io, type Socket } from "socket.io-client";
 import { getInitials, getAvatarColor } from "@/utils/ticketHelpers";
-import { getStoredToken, getStoredUser, getUserFromToken, isDemoMode } from "@/lib/auth";
+import {
+  getStoredToken,
+  getStoredUser,
+  getUserFromToken,
+  isDemoMode,
+} from "@/lib/auth";
 import { apiOrigin } from "@/lib/http/api-url";
-import { getTicketChatMessages, PostchatTicket } from "@/lib/http/tickets/chat-ticket";
+import {
+  getTicketChatMessages,
+  PostchatTicket,
+} from "@/lib/http/tickets/chat-ticket";
 
 interface ChatMessage {
   id: string;
@@ -34,62 +42,114 @@ function messageList(payload: unknown): unknown[] {
   return [];
 }
 
-function mergeMessages(current: ChatMessage[], incoming: ChatMessage[]): ChatMessage[] {
+function mergeMessages(
+  current: ChatMessage[],
+  incoming: ChatMessage[],
+): ChatMessage[] {
   const byId = new Map<string, ChatMessage>();
   for (const item of incoming) byId.set(item.id, item);
   for (const item of current) {
     const existing = byId.get(item.id);
     if (!existing) byId.set(item.id, item);
-    else if (item.isCurrentUser) byId.set(item.id, { ...existing, isCurrentUser: true });
+    else if (item.isCurrentUser)
+      byId.set(item.id, { ...existing, isCurrentUser: true });
   }
   return [...byId.values()];
 }
 
-function toChatMessage(payload: unknown, currentUser?: { id: string; email?: string; role?: string | null } | null): ChatMessage | null {
+function toChatMessage(
+  payload: unknown,
+  currentUser?: { id: string; email?: string; role?: string | null } | null,
+): ChatMessage | null {
   if (!payload || typeof payload !== "object") return null;
   const outer = payload as Record<string, unknown>;
-  const data = outer.message && typeof outer.message === "object"
-    ? outer.message as Record<string, unknown>
-    : outer;
-  const sender = (data.sender ?? data.user ?? data.author ?? data.createdBy ?? data.created_by) as Record<string, unknown> | undefined;
-  const text = [data.text, data.content, typeof data.message === "string" ? data.message : undefined]
-    .find((value): value is string => typeof value === "string" && value.trim().length > 0);
+  const data =
+    outer.message && typeof outer.message === "object"
+      ? (outer.message as Record<string, unknown>)
+      : outer;
+  const sender = (data.sender ??
+    data.user ??
+    data.author ??
+    data.createdBy ??
+    data.created_by) as Record<string, unknown> | undefined;
+  const text = [
+    data.text,
+    data.content,
+    typeof data.message === "string" ? data.message : undefined,
+  ].find(
+    (value): value is string =>
+      typeof value === "string" && value.trim().length > 0,
+  );
   if (!text) return null;
 
   const senderId = [
-    data.senderId, data.sender_id, data.userId, data.user_id,
-    data.authorId, data.author_id, data.createdById, data.created_by_id,
-    data.createdBy, data.created_by,
-    sender?.id, sender?.userId, sender?.user_id, sender?.senderId, sender?.sender_id,
-  ].find((value): value is string | number => typeof value === "string" || typeof value === "number");
-  const senderName = [data.senderName, sender?.name, sender?.username, data.authorName]
-    .find((value): value is string => typeof value === "string") ?? "Participante";
-  const roleValue = data.senderRole ?? data.sender_role ?? data.role ?? sender?.role;
-  const senderRole = ["CLIENT", "AGENT", "ADMIN", "SYSTEM"].includes(String(roleValue))
-    ? roleValue as ChatMessage["senderRole"]
-    : "AGENT";
-  const senderEmail = [data.senderEmail, data.sender_email, data.userEmail, data.user_email, sender?.email].find(
-    (email): email is string => typeof email === "string",
+    data.senderId,
+    data.sender_id,
+    data.userId,
+    data.user_id,
+    data.authorId,
+    data.author_id,
+    data.createdById,
+    data.created_by_id,
+    data.createdBy,
+    data.created_by,
+    sender?.id,
+    sender?.userId,
+    sender?.user_id,
+    sender?.senderId,
+    sender?.sender_id,
+  ].find(
+    (value): value is string | number =>
+      typeof value === "string" || typeof value === "number",
   );
+  const senderName =
+    [data.senderName, sender?.name, sender?.username, data.authorName].find(
+      (value): value is string => typeof value === "string",
+    ) ?? "Participante";
+  const roleValue =
+    data.senderRole ?? data.sender_role ?? data.role ?? sender?.role;
+  const senderRole = ["CLIENT", "AGENT", "ADMIN", "SYSTEM"].includes(
+    String(roleValue),
+  )
+    ? (roleValue as ChatMessage["senderRole"])
+    : "AGENT";
+  const senderEmail = [
+    data.senderEmail,
+    data.sender_email,
+    data.userEmail,
+    data.user_email,
+    sender?.email,
+  ].find((email): email is string => typeof email === "string");
   const hasSenderIdentity = senderId !== undefined || senderEmail !== undefined;
-  const matchesCurrentUser = Boolean(currentUser && (
-    (senderId !== undefined && String(senderId) === String(currentUser.id)) ||
-    (senderEmail !== undefined && currentUser.email !== undefined && senderEmail.toLowerCase() === currentUser.email.toLowerCase())
-  ));
+  const matchesCurrentUser = Boolean(
+    currentUser &&
+    ((senderId !== undefined && String(senderId) === String(currentUser.id)) ||
+      (senderEmail !== undefined &&
+        currentUser.email !== undefined &&
+        senderEmail.toLowerCase() === currentUser.email.toLowerCase())),
+  );
   const rawTimestamp = data.timestamp ?? data.createdAt ?? data.created_at;
-  const parsedDate = typeof rawTimestamp === "string" ? new Date(rawTimestamp) : new Date();
+  const parsedDate =
+    typeof rawTimestamp === "string" ? new Date(rawTimestamp) : new Date();
   const timestamp = Number.isNaN(parsedDate.getTime())
     ? "--:--"
     : `${String(parsedDate.getHours()).padStart(2, "0")}:${String(parsedDate.getMinutes()).padStart(2, "0")}`;
 
   return {
-    id: String(data.id ?? `${senderId ?? "message"}-${rawTimestamp ?? Date.now()}-${text.slice(0, 12)}`),
+    id: String(
+      data.id ??
+        `${senderId ?? "message"}-${rawTimestamp ?? Date.now()}-${text.slice(0, 12)}`,
+    ),
     senderName,
     senderRole,
     text,
     timestamp,
-    isCurrentUser: data.isCurrentUser === true || data.is_current_user === true ||
-      data.isMine === true || data.is_mine === true || matchesCurrentUser,
+    isCurrentUser:
+      data.isCurrentUser === true ||
+      data.is_current_user === true ||
+      data.isMine === true ||
+      data.is_mine === true ||
+      matchesCurrentUser,
   };
 }
 
@@ -97,7 +157,7 @@ function toChatMessage(payload: unknown, currentUser?: { id: string; email?: str
 function Avatar({ name }: { name: string }) {
   const initials = getInitials(name);
   const colorClass = getAvatarColor(name);
-  
+
   return (
     <div
       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold uppercase tracking-wide text-white ${colorClass}`}
@@ -108,17 +168,27 @@ function Avatar({ name }: { name: string }) {
   );
 }
 
-export default function TicketChat({ ticketId, className = "" }: TicketChatProps) {
+export default function TicketChat({
+  ticketId,
+  className = "",
+}: TicketChatProps) {
+  return <TicketChatSession key={ticketId} ticketId={ticketId} className={className} />;
+}
+
+function TicketChatSession({ ticketId, className = "" }: TicketChatProps) {
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sending, setSending] = useState(false);
-  const [sendError, setSendError] = useState<string | null>(null);
+  const [sendError, setSendError] = useState<string | null>(() =>
+    isDemoMode()
+      ? "O chat em tempo real não está disponível no modo demonstração."
+      : getStoredToken() ? null : "Sua sessão expirou. Faça login novamente.",
+  );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const socketRef = useRef<TicketChatSocket | null>(null);
 
   useEffect(() => {
-    setMessages([]);
     if (isDemoMode()) return;
 
     const controller = new AbortController();
@@ -133,30 +203,29 @@ export default function TicketChat({ ticketId, className = "" }: TicketChatProps
       })
       .catch((error: unknown) => {
         if (controller.signal.aborted) return;
-        setSendError(error instanceof Error ? error.message : "Não foi possível carregar as mensagens.");
+        setSendError(
+          error instanceof Error
+            ? error.message
+            : "Não foi possível carregar as mensagens.",
+        );
       });
 
     return () => controller.abort();
   }, [ticketId]);
 
   useEffect(() => {
-    setSendError(null);
-    if (isDemoMode()) {
-      setSendError("O chat em tempo real não está disponível no modo demonstração.");
-      return;
-    }
+    if (isDemoMode()) return;
 
     const token = getStoredToken();
-    if (!token) {
-      setSendError("Sua sessão expirou. Faça login novamente.");
-      return;
-    }
+    if (!token) return;
 
     let socket: TicketChatSocket;
     try {
       socket = io(`${apiOrigin()}/ticket-chat`, { auth: { token } });
     } catch (error) {
-      setSendError(error instanceof Error ? error.message : "Não foi possível conectar ao chat.");
+      queueMicrotask(() => setSendError(
+        error instanceof Error ? error.message : "Não foi possível conectar ao chat.",
+      ));
       return;
     }
     socketRef.current = socket;
@@ -166,8 +235,16 @@ export default function TicketChat({ ticketId, className = "" }: TicketChatProps
       if (payload?.ticketId === ticketId) setSendError(null);
     };
     const onNewMessage = (payload: unknown) => {
-      const message = toChatMessage(payload, getStoredUser() ?? getUserFromToken());
-      if (message) setMessages((current) => current.some((item) => item.id === message.id) ? current : [...current, message]);
+      const message = toChatMessage(
+        payload,
+        getStoredUser() ?? getUserFromToken(),
+      );
+      if (message)
+        setMessages((current) =>
+          current.some((item) => item.id === message.id)
+            ? current
+            : [...current, message],
+        );
     };
     const onConnectError = (error: Error) => {
       setSendError(error.message || "Não foi possível conectar ao chat.");
@@ -192,8 +269,6 @@ export default function TicketChat({ ticketId, className = "" }: TicketChatProps
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -223,22 +298,31 @@ export default function TicketChat({ ticketId, className = "" }: TicketChatProps
 
     try {
       const payload = await PostchatTicket<unknown>(ticketId, text);
-      const message = toChatMessage(payload, getStoredUser() ?? getUserFromToken());
+      const message = toChatMessage(
+        payload,
+        getStoredUser() ?? getUserFromToken(),
+      );
       if (!message) {
         setInputMessage(text);
-        setSendError("A mensagem foi enviada, mas a resposta da API não pôde ser exibida.");
+        setSendError(
+          "A mensagem foi enviada, mas a resposta da API não pôde ser exibida.",
+        );
         return;
       }
 
       const mine = { ...message, isCurrentUser: true };
-      setMessages((current) => (
+      setMessages((current) =>
         current.some((item) => item.id === mine.id)
           ? current.map((item) => (item.id === mine.id ? mine : item))
-          : [...current, mine]
-      ));
+          : [...current, mine],
+      );
     } catch (error) {
       setInputMessage(text);
-      setSendError(error instanceof Error ? error.message : "Não foi possível enviar a mensagem.");
+      setSendError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível enviar a mensagem.",
+      );
     } finally {
       setSending(false);
     }
@@ -254,16 +338,14 @@ export default function TicketChat({ ticketId, className = "" }: TicketChatProps
   const hasText = inputMessage.trim().length > 0;
 
   return (
-    <div
-      className={`flex h-full flex-col bg-transparent ${className}`}
-    >
+    <div className={`flex h-full flex-col bg-transparent ${className}`}>
       {/* ── Minimal header ─────────────────────────────────────── */}
       <div className="flex items-center justify-between px-4 py-2">
         <span className="text-[11px] font-semibold uppercase tracking-widest text-[var(--ch-muted)]">
           Conversa
         </span>
         <span className="rounded-full bg-[var(--ch-tint)] px-2 py-0.5 text-[11px] font-medium text-[var(--ch-action)]">
-            {messages.filter((m) => m.senderRole !== "SYSTEM").length} mensagens
+          {messages.filter((m) => m.senderRole !== "SYSTEM").length} mensagens
         </span>
       </div>
 
@@ -346,7 +428,9 @@ export default function TicketChat({ ticketId, className = "" }: TicketChatProps
         </div>
 
         {sendError && (
-          <p role="alert" className="mt-3 text-sm text-red-600">{sendError}</p>
+          <p role="alert" className="mt-3 text-sm text-red-600">
+            {sendError}
+          </p>
         )}
 
         <div ref={messagesEndRef} />

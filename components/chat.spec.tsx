@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/http/chat", () => ({ PostchatIa: vi.fn() }));
@@ -34,11 +40,15 @@ describe("ChatModal", () => {
     openChat();
 
     expect(screen.getByRole("dialog", { name: /chat/i })).toBeInTheDocument();
-    expect(screen.getByText("Escreva uma mensagem para começar.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Escreva uma mensagem para começar."),
+    ).toBeInTheDocument();
   });
 
   it("envia a mensagem e exibe a resposta do assistente", async () => {
-    vi.mocked(PostchatIa).mockResolvedValue({ reply: "Olá! Como posso ajudar?" } as never);
+    vi.mocked(PostchatIa).mockResolvedValue({
+      reply: "Olá! Como posso ajudar?",
+    } as never);
 
     render(<ChatModal />);
     openChat();
@@ -47,7 +57,9 @@ describe("ChatModal", () => {
     await waitFor(() => {
       expect(PostchatIa).toHaveBeenCalledWith("Preciso de ajuda", []);
     });
-    expect(await screen.findByText("Olá! Como posso ajudar?")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Olá! Como posso ajudar?"),
+    ).toBeInTheDocument();
     expect(screen.getByText("Preciso de ajuda")).toBeInTheDocument();
   });
 
@@ -79,7 +91,9 @@ describe("ChatModal", () => {
     openChat();
     sendMessage("oi");
 
-    expect(await screen.findByText(/sem conexão com o chat/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/sem conexão com o chat/i),
+    ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /tentar de novo/i }));
     expect(await screen.findByText("Consegui agora")).toBeInTheDocument();
@@ -92,6 +106,8 @@ describe("ChatModal", () => {
     expect(screen.getByRole("dialog", { name: /chat/i })).toBeInTheDocument();
 
     fireEvent.keyDown(window, { key: "Escape" });
-    expect(screen.queryByRole("dialog", { name: /chat/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("dialog", { name: /chat/i }),
+    ).not.toBeInTheDocument();
   });
 });

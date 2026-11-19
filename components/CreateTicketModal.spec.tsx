@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/http/tickets/createTicket", () => ({ createTicket: vi.fn() }));
@@ -21,9 +27,16 @@ afterEach(() => {
   cleanup();
 });
 
-function fillForm(title = "Erro ao acessar", description = "Não consigo entrar") {
-  fireEvent.change(screen.getByLabelText(/assunto/i), { target: { value: title } });
-  fireEvent.change(screen.getByLabelText(/descrição/i), { target: { value: description } });
+function fillForm(
+  title = "Erro ao acessar",
+  description = "Não consigo entrar",
+) {
+  fireEvent.change(screen.getByLabelText(/assunto/i), {
+    target: { value: title },
+  });
+  fireEvent.change(screen.getByLabelText(/descrição/i), {
+    target: { value: description },
+  });
 }
 
 describe("CreateTicketModal", () => {
@@ -74,7 +87,9 @@ describe("CreateTicketModal", () => {
     fillForm();
     fireEvent.click(screen.getByRole("button", { name: /criar chamado/i }));
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("Falha no servidor");
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Falha no servidor",
+    );
     expect(props.onCreated).not.toHaveBeenCalled();
   });
 
@@ -94,7 +109,9 @@ describe("CreateTicketModal", () => {
     const bigFile = new File(["x".repeat(6 * 1024 * 1024)], "grande.pdf", {
       type: "application/pdf",
     });
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     fireEvent.change(input, { target: { files: [bigFile] } });
 
     expect(

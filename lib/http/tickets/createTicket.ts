@@ -11,7 +11,9 @@ export interface CreateTicketInput {
   attachments?: File[];
 }
 
-export async function createTicket(input: CreateTicketInput): Promise<ApiTicket> {
+export async function createTicket(
+  input: CreateTicketInput,
+): Promise<ApiTicket> {
   if (isDemoMode()) {
     const now = new Date().toISOString();
     const ticket: ApiTicket = {
@@ -20,7 +22,12 @@ export async function createTicket(input: CreateTicketInput): Promise<ApiTicket>
       description: input.description,
       status: "OPEN",
       priority: "MEDIUM",
-      requester: { id: "demo-admin", username: "Administrador Demo", email: "admin@demo.com", role: "ADMIN" },
+      requester: {
+        id: "demo-admin",
+        username: "Administrador Demo",
+        email: "admin@demo.com",
+        role: "ADMIN",
+      },
       assigned_to: null,
       created_at: now,
       updated_at: now,
@@ -40,7 +47,9 @@ export async function createTicket(input: CreateTicketInput): Promise<ApiTicket>
         formData.append("title", input.title);
         formData.append("description", input.description);
         formData.append("category_id", String(input.category_id));
-        Array.from(input.attachments).forEach((file) => formData.append("attachments", file));
+        Array.from(input.attachments).forEach((file) =>
+          formData.append("attachments", file),
+        );
         return formData;
       })()
     : {
@@ -59,7 +68,10 @@ export async function createTicket(input: CreateTicketInput): Promise<ApiTicket>
 
   if (response.status < 200 || response.status >= 300) {
     if (response.status === 401) {
-      throw new TicketsRequestError("Sua sessão expirou. Faça login novamente.", response.status);
+      throw new TicketsRequestError(
+        "Sua sessão expirou. Faça login novamente.",
+        response.status,
+      );
     }
 
     const message =

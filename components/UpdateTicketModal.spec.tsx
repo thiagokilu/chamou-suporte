@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/http/tickets/updateTicket", () => ({ updateTicket: vi.fn() }));
@@ -29,7 +35,9 @@ afterEach(() => {
 
 describe("UpdateTicketModal", () => {
   it("não renderiza nada quando ticket é null", () => {
-    const { container } = render(<UpdateTicketModal ticket={null} {...props} />);
+    const { container } = render(
+      <UpdateTicketModal ticket={null} {...props} />,
+    );
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -38,7 +46,9 @@ describe("UpdateTicketModal", () => {
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByText("#42")).toBeInTheDocument();
-    expect(screen.getByLabelText(/assunto/i)).toHaveValue("Erro ao acessar o sistema");
+    expect(screen.getByLabelText(/assunto/i)).toHaveValue(
+      "Erro ao acessar o sistema",
+    );
     expect(screen.getByLabelText(/status/i)).toHaveValue("OPEN");
     expect(screen.getByLabelText(/prioridade/i)).toHaveValue("HIGH");
   });
@@ -80,18 +90,24 @@ describe("UpdateTicketModal", () => {
   });
 
   it("exibe erro quando a atualização falha", async () => {
-    vi.mocked(updateTicket).mockRejectedValue(new Error("Chamado não encontrado."));
+    vi.mocked(updateTicket).mockRejectedValue(
+      new Error("Chamado não encontrado."),
+    );
 
     render(<UpdateTicketModal ticket={ticket} {...props} />);
     fireEvent.click(screen.getByRole("button", { name: /salvar alterações/i }));
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("Chamado não encontrado.");
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Chamado não encontrado.",
+    );
     expect(props.onUpdated).not.toHaveBeenCalled();
   });
 
   it("exige o assunto", async () => {
     render(<UpdateTicketModal ticket={ticket} {...props} />);
-    fireEvent.change(screen.getByLabelText(/assunto/i), { target: { value: "" } });
+    fireEvent.change(screen.getByLabelText(/assunto/i), {
+      target: { value: "" },
+    });
     fireEvent.click(screen.getByRole("button", { name: /salvar alterações/i }));
 
     expect(await screen.findByText("Informe o assunto.")).toBeInTheDocument();

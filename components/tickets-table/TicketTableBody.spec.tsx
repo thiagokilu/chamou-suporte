@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ApiTicket } from "@/lib/http/http";
 
@@ -27,8 +33,18 @@ const apiTicket: ApiTicket = {
   description: "Não consigo fazer login",
   status: "OPEN",
   priority: "HIGH",
-  requester: { id: "u1", username: "Maria Souza", email: "maria@x.com", role: "CLIENT" },
-  assigned_to: { id: "u2", username: "Carlos", email: "carlos@x.com", role: "AGENT" },
+  requester: {
+    id: "u1",
+    username: "Maria Souza",
+    email: "maria@x.com",
+    role: "CLIENT",
+  },
+  assigned_to: {
+    id: "u2",
+    username: "Carlos",
+    email: "carlos@x.com",
+    role: "AGENT",
+  },
   created_at: "2026-11-10T10:00:00.000Z",
   updated_at: "2026-11-11T10:00:00.000Z",
 };
@@ -56,13 +72,17 @@ describe("TicketsTableBody", () => {
 
     render(<TicketsTableBody />);
 
-    expect(await screen.findByText("Erro ao acessar o sistema")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Erro ao acessar o sistema"),
+    ).toBeInTheDocument();
     expect(screen.getByText("#1")).toBeInTheDocument();
     expect(screen.getByText("Maria Souza")).toBeInTheDocument();
     expect(screen.getAllByText("Carlos").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Aberto").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Alta").length).toBeGreaterThan(0);
-    expect(screen.getByRole("status")).toHaveTextContent("1 chamado encontrado");
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "1 chamado encontrado",
+    );
   });
 
   it("exibe estado de erro com opção de tentar novamente", async () => {
@@ -77,11 +97,15 @@ describe("TicketsTableBody", () => {
 
     vi.mocked(getTickets).mockResolvedValue({ data: [apiTicket], meta });
     fireEvent.click(screen.getByRole("button", { name: /tentar novamente/i }));
-    expect(await screen.findByText("Erro ao acessar o sistema")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Erro ao acessar o sistema"),
+    ).toBeInTheDocument();
   });
 
   it("redireciona para /login quando a API responde 401", async () => {
-    vi.mocked(getTickets).mockRejectedValue(new TicketsRequestError("expirado", 401));
+    vi.mocked(getTickets).mockRejectedValue(
+      new TicketsRequestError("expirado", 401),
+    );
 
     render(<TicketsTableBody />);
 
@@ -104,8 +128,12 @@ describe("TicketsTableBody", () => {
       target: { value: "senha" },
     });
 
-    expect(screen.queryByText("Erro ao acessar o sistema")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Erro ao acessar o sistema"),
+    ).not.toBeInTheDocument();
     expect(screen.getByText("Dúvida de senha")).toBeInTheDocument();
-    expect(screen.getByRole("status")).toHaveTextContent("1 chamado encontrado");
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "1 chamado encontrado",
+    );
   });
 });

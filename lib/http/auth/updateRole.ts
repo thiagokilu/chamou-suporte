@@ -13,7 +13,7 @@ export interface UpdateRolePayload {
 export async function updateRole<T>(
   userId: string,
   role: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<T> {
   if (isDemoMode()) return { success: true, userId, role } as T;
 
@@ -34,11 +34,13 @@ export async function updateRole<T>(
       },
       signal,
       validateStatus: () => true,
-    }
+    },
   );
 
   if (response.status < 200 || response.status >= 300) {
-    throw new Error(`Não foi possível atualizar o perfil (${response.status}).`);
+    throw new Error(
+      `Não foi possível atualizar o perfil (${response.status}).`,
+    );
   }
 
   return response.data;

@@ -8,10 +8,16 @@ import { getMe } from "@/lib/http/auth/me";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { enterDemoMode, getUserFromToken, normalizeUser, setStoredToken, setStoredUser } from "@/lib/auth";
+import {
+  enterDemoMode,
+  getUserFromToken,
+  normalizeUser,
+  setStoredToken,
+  setStoredUser,
+} from "@/lib/auth";
 import Image from "next/image";
 import chamouLogo from "@/assets/img/chamoulogo.png";
-import {toast} from "sonner"
+import { toast } from "sonner";
 import { useEffect } from "react";
 
 type LoginResponse = {
@@ -37,10 +43,13 @@ export default function LoginForm() {
   const router = useRouter();
 
   useEffect(() => {
-    toast.warning("A API no Render pode levar até 5 minutos para iniciar. A primeira requisição pode demorar.", {
-      id: "render-api-warning",
-      duration: 8000,
-    });
+    toast.warning(
+      "A API no Render pode levar até 5 minutos para iniciar. A primeira requisição pode demorar.",
+      {
+        id: "render-api-warning",
+        duration: 8000,
+      },
+    );
   }, []);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +68,8 @@ export default function LoginForm() {
     setError(null);
     try {
       const response = await login<LoginResponse>(data.email, data.password);
-      const token = response.token ?? response.accessToken ?? response.access_token;
+      const token =
+        response.token ?? response.accessToken ?? response.access_token;
 
       if (!token) {
         throw new Error("O login não retornou um token de autenticação.");
@@ -104,8 +114,18 @@ export default function LoginForm() {
       {/* Painel lateral */}
       <aside className="relative hidden flex-col justify-between overflow-hidden bg-[#0F3D2A] px-12 py-10 text-white lg:flex xl:px-16">
         <div className="flex items-center">
-          <Link href="/" className="flex items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#0F3D2A]">
-            <Image src={chamouLogo} alt="Chamou Suporte de TI" width={2000} height={617} priority className="h-auto w-40 brightness-0 invert" />
+          <Link
+            href="/"
+            className="flex items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#0F3D2A]"
+          >
+            <Image
+              src={chamouLogo}
+              alt="Chamou Suporte de TI"
+              width={2000}
+              height={617}
+              priority
+              className="h-auto w-40 brightness-0 invert"
+            />
           </Link>
         </div>
 
@@ -114,22 +134,44 @@ export default function LoginForm() {
             Acompanhe seu suporte sem perder o fio.
           </p>
           <p className="mt-4 max-w-md text-base leading-7 text-emerald-50/75">
-            Seus pedidos e as atualizações da equipe ficam reunidos em um só lugar.
+            Seus pedidos e as atualizações da equipe ficam reunidos em um só
+            lugar.
           </p>
 
-          <div aria-hidden="true" className="mt-9 max-w-lg border-l border-white/20 pl-5">
+          <div
+            aria-hidden="true"
+            className="mt-9 max-w-lg border-l border-white/20 pl-5"
+          >
             <div className="flex items-center justify-between gap-4">
-              <span className="text-xs font-medium text-emerald-50/65">Chamado #2048</span>
+              <span className="text-xs font-medium text-emerald-50/65">
+                Chamado #2048
+              </span>
               <span className="inline-flex items-center gap-2 text-xs font-medium text-[#BDEBC9]">
-                <span className="h-2 w-2 rounded-full bg-[#7ED99A]" /> Em atendimento
+                <span className="h-2 w-2 rounded-full bg-[#7ED99A]" /> Em
+                atendimento
               </span>
             </div>
-            <p className="mt-3 text-lg font-semibold text-white">Acesso ao e-mail</p>
-            <p className="mt-1 text-sm text-emerald-50/65">A equipe já está verificando sua solicitação.</p>
+            <p className="mt-3 text-lg font-semibold text-white">
+              Acesso ao e-mail
+            </p>
+            <p className="mt-1 text-sm text-emerald-50/65">
+              A equipe já está verificando sua solicitação.
+            </p>
             <div className="mt-6 flex items-center gap-3 text-xs">
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#7ED99A] text-[#0F3D2A]">
-                <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <path d="m3 8 3 3 7-7" strokeLinecap="round" strokeLinejoin="round" />
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-3 w-3"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="m3 8 3 3 7-7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </span>
               <span className="text-white/85">Solicitação recebida</span>
@@ -147,17 +189,35 @@ export default function LoginForm() {
       <section className="flex items-center justify-center px-6 py-10 sm:px-10 lg:px-12">
         <div className="w-full max-w-[420px]">
           <div className="mb-9 lg:hidden">
-            <Image src={chamouLogo} alt="Chamou Suporte de TI" width={2000} height={617} priority className="h-auto w-40" />
+            <Image
+              src={chamouLogo}
+              alt="Chamou Suporte de TI"
+              width={2000}
+              height={617}
+              priority
+              className="h-auto w-40"
+            />
           </div>
 
           <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight text-[#0F3D2A]">Acesse sua conta</h1>
-            <p className="mt-2 text-sm leading-6 text-[#4B5E54]">Entre para acompanhar seus chamados e falar com o suporte.</p>
+            <h1 className="text-3xl font-bold tracking-tight text-[#0F3D2A]">
+              Acesse sua conta
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-[#4B5E54]">
+              Entre para acompanhar seus chamados e falar com o suporte.
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="space-y-5"
+          >
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-[#263B30]">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-[#263B30]"
+              >
                 Email
               </label>
               <input
@@ -179,7 +239,10 @@ export default function LoginForm() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-[#263B30]">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-[#263B30]"
+              >
                 Senha
               </label>
               <div className="relative">
@@ -188,7 +251,9 @@ export default function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   aria-invalid={!!errors.password}
-                  aria-describedby={errors.password ? "password-error" : undefined}
+                  aria-describedby={
+                    errors.password ? "password-error" : undefined
+                  }
                   {...register("password")}
                   className={`${inputBase} pr-20 ${errors.password ? inputBad : inputOk}`}
                   placeholder="••••••••"
@@ -231,8 +296,20 @@ export default function LoginForm() {
                   fill="none"
                   aria-hidden="true"
                 >
-                  <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="3" className="opacity-25" />
-                  <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    className="opacity-25"
+                  />
+                  <path
+                    d="M21 12a9 9 0 0 0-9-9"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
                 </svg>
               )}
               {isLoading ? "Entrando..." : "Entrar"}
@@ -246,7 +323,6 @@ export default function LoginForm() {
           >
             Acessar como Administrador (Demo)
           </button>
-
         </div>
       </section>
     </main>

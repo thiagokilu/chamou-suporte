@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 const TOKEN_COOKIE = "tickets_token";
 const DEMO_TOKEN = "demo-token";
@@ -10,7 +10,10 @@ export function proxy(request: NextRequest) {
   // O modo demo só pode usar os mocks no navegador; nenhuma requisição /api
   // deve ser encaminhada ao backend enquanto esse token estiver ativo.
   if (token === DEMO_TOKEN && request.nextUrl.pathname.startsWith("/api/")) {
-    return NextResponse.json({ error: "A API não está disponível no modo demonstração." }, { status: 403 });
+    return NextResponse.json(
+      { error: "A API não está disponível no modo demonstração." },
+      { status: 403 },
+    );
   }
 
   if (request.nextUrl.pathname.startsWith("/api/")) {
@@ -37,4 +40,4 @@ export const config = {
     "/usuarios/:path*",
     "/api/:path*",
   ],
-}
+};

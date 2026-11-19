@@ -12,7 +12,13 @@ describe("Markdown", () => {
 
   it("abre links externos em nova aba com proteção contra acesso à janela", () => {
     render(<Markdown>{"[documentação](https://example.com)"}</Markdown>);
-    expect(screen.getByRole("link", { name: "documentação" })).toHaveAttribute("rel", "noopener noreferrer");
-    expect(screen.getByRole("link", { name: "documentação" })).toHaveAttribute("target", "_blank");
+    expect(screen.getByRole("link", { name: "documentação" })).toHaveAttribute(
+      "rel",
+      "noopener noreferrer",
+    );
+    expect(screen.getByRole("link", { name: "documentação" })).toHaveAttribute(
+      "target",
+      "_blank",
+    );
   });
 });

@@ -1,4 +1,5 @@
-export type Status = "Aberto" | "Em andamento" | "Aguardando resposta" | "Resolvido" | "Fechado";
+export type Status =
+  "Aberto" | "Em andamento" | "Aguardando resposta" | "Resolvido" | "Fechado";
 export type Priority = "Baixa" | "Média" | "Alta" | "Urgente";
 export type Tone = "teal" | "violet";
 

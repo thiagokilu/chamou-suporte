@@ -24,15 +24,25 @@ const toneStyle: Record<PersonInfo["tone"], string> = {
 function Person({ person }: { person: PersonInfo }) {
   return (
     <div className="flex items-center gap-2">
-      <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${toneStyle[person.tone]}`}>
+      <span
+        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${toneStyle[person.tone]}`}
+      >
         {person.initials}
       </span>
-      <span className="max-w-28 truncate text-sm text-[#3F5248]">{person.name}</span>
+      <span className="max-w-28 truncate text-sm text-[#3F5248]">
+        {person.name}
+      </span>
     </div>
   );
 }
 
-export function TicketTableRow({ ticket, onSelect }: { ticket: Ticket; onSelect: (ticket: Ticket) => void }) {
+export function TicketTableRow({
+  ticket,
+  onSelect,
+}: {
+  ticket: Ticket;
+  onSelect: (ticket: Ticket) => void;
+}) {
   return (
     <tr
       tabIndex={0}
@@ -41,27 +51,49 @@ export function TicketTableRow({ ticket, onSelect }: { ticket: Ticket; onSelect:
         if (event.key === "Enter") onSelect(ticket);
       }}
       className={`group cursor-pointer bg-white outline-none transition-colors hover:bg-[#F2F6F3] focus-visible:bg-[#F2F6F3] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#15803D] motion-reduce:transition-none ${
-        ticket.priority === "Urgente" ? "border-l-2 border-l-rose-500" : "border-l-2 border-l-transparent"
+        ticket.priority === "Urgente"
+          ? "border-l-2 border-l-rose-500"
+          : "border-l-2 border-l-transparent"
       }`}
     >
-      <td className="px-6 py-[17px] text-sm font-medium tabular-nums text-[#4B5E54]">#{ticket.id}</td>
-      <td className="px-3 py-[17px]">
-        <div className="max-w-[270px] truncate text-sm font-semibold text-[#10241A]">{ticket.subject}</div>
-      </td>
-      <td className="px-3 py-[17px]"><Person person={ticket.requester} /></td>
-      <td className="px-3 py-[17px]">
-        {ticket.agent ? <Person person={ticket.agent} /> : <span className="text-sm text-[#4B5E54]">Não atribuído</span>}
+      <td className="px-6 py-[17px] text-sm font-medium tabular-nums text-[#4B5E54]">
+        #{ticket.id}
       </td>
       <td className="px-3 py-[17px]">
-        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${statusStyle[ticket.status] ?? statusStyle.Fechado}`}>
+        <div className="max-w-[270px] truncate text-sm font-semibold text-[#10241A]">
+          {ticket.subject}
+        </div>
+      </td>
+      <td className="px-3 py-[17px]">
+        <Person person={ticket.requester} />
+      </td>
+      <td className="px-3 py-[17px]">
+        {ticket.agent ? (
+          <Person person={ticket.agent} />
+        ) : (
+          <span className="text-sm text-[#4B5E54]">Não atribuído</span>
+        )}
+      </td>
+      <td className="px-3 py-[17px]">
+        <span
+          className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${statusStyle[ticket.status] ?? statusStyle.Fechado}`}
+        >
           {ticket.status}
         </span>
       </td>
       <td className="px-3 py-[17px]">
-        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${priorityStyle[ticket.priority] ?? "bg-[#F2F6F3] text-[#4B5E54]"}`}>{ticket.priority}</span>
+        <span
+          className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${priorityStyle[ticket.priority] ?? "bg-[#F2F6F3] text-[#4B5E54]"}`}
+        >
+          {ticket.priority}
+        </span>
       </td>
-      <td className="px-3 py-[17px] text-sm text-[#4B5E54]">{ticket.createdAt}</td>
-      <td className="px-3 py-[17px] text-sm text-[#4B5E54]">{ticket.updatedAt}</td>
+      <td className="px-3 py-[17px] text-sm text-[#4B5E54]">
+        {ticket.createdAt}
+      </td>
+      <td className="px-3 py-[17px] text-sm text-[#4B5E54]">
+        {ticket.updatedAt}
+      </td>
       <td className="px-3 py-[17px] text-right">
         <button
           aria-label={`Ver detalhes do chamado ${ticket.id}`}

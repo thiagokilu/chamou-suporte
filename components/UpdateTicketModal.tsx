@@ -1,7 +1,14 @@
 "use client";
 
-import { updateTicket, type UpdateTicketInput } from "@/lib/http/tickets/updateTicket";
-import { type TicketStatus, type TicketPriority, TicketsRequestError } from "@/lib/http/tickets/getTicketById";
+import {
+  updateTicket,
+  type UpdateTicketInput,
+} from "@/lib/http/tickets/updateTicket";
+import {
+  type TicketStatus,
+  type TicketPriority,
+  TicketsRequestError,
+} from "@/lib/http/tickets/getTicketById";
 import { useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import { FiX } from "react-icons/fi";
@@ -50,37 +57,42 @@ const priorityOptions: { label: string; value: TicketPriority }[] = [
 /** Converte label em PT-BR ou valor da API para o valor esperado pela API */
 const statusToApi: Record<string, TicketStatus> = {
   // labels PT-BR
-  "Aberto": "OPEN",
+  Aberto: "OPEN",
   "Em andamento": "IN_PROGRESS",
   "Aguardando resposta": "WAITING_FOR_CUSTOMER",
   "Aguardando cliente": "WAITING_FOR_CUSTOMER",
-  "Resolvido": "RESOLVED",
-  "Fechado": "CLOSED",
+  Resolvido: "RESOLVED",
+  Fechado: "CLOSED",
   // valores diretos da API (passthrough)
-  "OPEN": "OPEN",
-  "IN_PROGRESS": "IN_PROGRESS",
-  "WAITING_FOR_CUSTOMER": "WAITING_FOR_CUSTOMER",
-  "RESOLVED": "RESOLVED",
-  "CLOSED": "CLOSED",
+  OPEN: "OPEN",
+  IN_PROGRESS: "IN_PROGRESS",
+  WAITING_FOR_CUSTOMER: "WAITING_FOR_CUSTOMER",
+  RESOLVED: "RESOLVED",
+  CLOSED: "CLOSED",
 };
 
 const priorityToApi: Record<string, TicketPriority> = {
   // labels PT-BR
-  "Baixa": "LOW",
-  "Média": "MEDIUM",
-  "Alta": "HIGH",
-  "Urgente": "URGENT",
+  Baixa: "LOW",
+  Média: "MEDIUM",
+  Alta: "HIGH",
+  Urgente: "URGENT",
   // valores diretos da API (passthrough)
-  "LOW": "LOW",
-  "MEDIUM": "MEDIUM",
-  "HIGH": "HIGH",
-  "URGENT": "URGENT",
+  LOW: "LOW",
+  MEDIUM: "MEDIUM",
+  HIGH: "HIGH",
+  URGENT: "URGENT",
 };
 
 const inputClassName =
   "mt-1 w-full rounded-lg border border-[#D8E1DA] bg-white px-3 py-2.5 text-sm text-[#10241A] outline-none placeholder:text-[#718078] focus-visible:border-[#15803D] focus-visible:ring-2 focus-visible:ring-[#15803D]/20";
 
-export function UpdateTicketModal({ ticket, onClose, onUpdated, isClient = false }: UpdateTicketModalProps) {
+export function UpdateTicketModal({
+  ticket,
+  onClose,
+  onUpdated,
+  isClient = false,
+}: UpdateTicketModalProps) {
   const titleId = useId();
   const open = ticket !== null;
 
@@ -149,9 +161,12 @@ export function UpdateTicketModal({ ticket, onClose, onUpdated, isClient = false
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
             <h2 id={titleId} className="text-xl font-bold text-[#0F3D2A]">
-              Editar chamado <span className="text-[#4B5E54]">#{ticket!.id}</span>
+              Editar chamado{" "}
+              <span className="text-[#4B5E54]">#{ticket!.id}</span>
             </h2>
-            <p className="mt-1 text-sm text-[#4B5E54]">Atualize as informações do chamado.</p>
+            <p className="mt-1 text-sm text-[#4B5E54]">
+              Atualize as informações do chamado.
+            </p>
           </div>
           <button
             type="button"
@@ -175,7 +190,9 @@ export function UpdateTicketModal({ ticket, onClose, onUpdated, isClient = false
               autoFocus
             />
             {errors.title && (
-              <span className="mt-1 block text-xs text-red-700">{errors.title.message}</span>
+              <span className="mt-1 block text-xs text-red-700">
+                {errors.title.message}
+              </span>
             )}
           </label>
 

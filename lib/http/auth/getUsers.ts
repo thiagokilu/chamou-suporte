@@ -15,9 +15,7 @@ export interface ApiUser {
   updated_at: string;
 }
 
-export async function getUsers(
-  signal?: AbortSignal
-): Promise<ApiUser[]> {
+export async function getUsers(signal?: AbortSignal): Promise<ApiUser[]> {
   if (isDemoMode()) return MOCK_USERS;
 
   const token = getStoredToken();
@@ -35,7 +33,9 @@ export async function getUsers(
   });
 
   if (response.status < 200 || response.status >= 300) {
-    throw new Error(`Não foi possível carregar os usuários (${response.status}).`);
+    throw new Error(
+      `Não foi possível carregar os usuários (${response.status}).`,
+    );
   }
 
   return response.data;

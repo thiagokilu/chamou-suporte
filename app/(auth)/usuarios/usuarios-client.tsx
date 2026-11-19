@@ -28,9 +28,8 @@ function getRoleColor(role: string) {
   }
 }
 
-
 export default function UsuariosClient() {
-  const [isDemo, setIsDemo] = useState(false);
+  const [isDemo] = useState(isDemoMode);
   const [users, setUsers] = useState<ApiUser[]>([]);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("Todos");
@@ -39,7 +38,6 @@ export default function UsuariosClient() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setIsDemo(isDemoMode());
     const controller = new AbortController();
 
     getUsers(controller.signal)
@@ -70,7 +68,7 @@ export default function UsuariosClient() {
 
   const roles = useMemo(
     () => ["Todos", ...Array.from(new Set(users.map((user) => user.role)))],
-    [users]
+    [users],
   );
 
   const filteredUsers = useMemo(() => {
@@ -91,8 +89,12 @@ export default function UsuariosClient() {
     <div className="min-h-screen bg-[#F5F7F4]">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-[#0F3D2A]">Gerenciamento de usuários</h1>
-          <p className="mt-2 text-sm text-[#4B5E54]">Gerencie os usuários do sistema</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#0F3D2A]">
+            Gerenciamento de usuários
+          </h1>
+          <p className="mt-2 text-sm text-[#4B5E54]">
+            Gerencie os usuários do sistema
+          </p>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-[#D8E1DA] bg-white">
@@ -102,7 +104,10 @@ export default function UsuariosClient() {
 
           <div className="flex flex-col gap-3 border-b border-[#D8E1DA] px-6 py-4 sm:flex-row">
             <div className="relative flex-1">
-              <LuSearch aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-[#4B5E54]" />
+              <LuSearch
+                aria-hidden="true"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#4B5E54]"
+              />
               <input
                 type="search"
                 placeholder="Buscar por nome ou e-mail..."
@@ -124,31 +129,70 @@ export default function UsuariosClient() {
             </select>
           </div>
 
-          {isLoading && <p className="p-8 text-center text-sm text-[#4B5E54]">Carregando usuários...</p>}
-          {error && <p role="alert" className="p-8 text-center text-sm text-red-700">{error}</p>}
+          {isLoading && (
+            <p className="p-8 text-center text-sm text-[#4B5E54]">
+              Carregando usuários...
+            </p>
+          )}
+          {error && (
+            <p role="alert" className="p-8 text-center text-sm text-red-700">
+              {error}
+            </p>
+          )}
           {!isLoading && !error && (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b border-[#D8E1DA] bg-[#F2F6F3]">
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]">Usuário</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]">E-mail</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]">Perfil</th>
-                    {!isDemo && <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]">Ações</th>}
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]"
+                    >
+                      Usuário
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]"
+                    >
+                      E-mail
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]"
+                    >
+                      Perfil
+                    </th>
+                    {!isDemo && (
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-semibold text-[#4B5E54]"
+                      >
+                        Ações
+                      </th>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#E6ECE7]">
                   {filteredUsers.map((user) => (
-                    <tr key={user.id} className="transition-colors hover:bg-[#F2F6F3] motion-reduce:transition-none">
+                    <tr
+                      key={user.id}
+                      className="transition-colors hover:bg-[#F2F6F3] motion-reduce:transition-none"
+                    >
                       <td className="px-6 py-4 text-sm font-medium">
                         <span className="text-[#10241A]">{user.username}</span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-[#3F5248]">{user.email}</td>
-                      {!isDemo && <td className="px-6 py-4 text-sm">
-                        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${getRoleColor(user.role)}`}>
-                          {getRoleLabel(user.role)}
-                        </span>
-                      </td>}
+                      <td className="px-6 py-4 text-sm text-[#3F5248]">
+                        {user.email}
+                      </td>
+                      {!isDemo && (
+                        <td className="px-6 py-4 text-sm">
+                          <span
+                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${getRoleColor(user.role)}`}
+                          >
+                            {getRoleLabel(user.role)}
+                          </span>
+                        </td>
+                      )}
                       <td className="px-6 py-4 text-sm">
                         <button
                           type="button"
@@ -163,7 +207,11 @@ export default function UsuariosClient() {
                   ))}
                 </tbody>
               </table>
-              {filteredUsers.length === 0 && <p className="p-8 text-center text-[#4B5E54]">Nenhum usuário encontrado.</p>}
+              {filteredUsers.length === 0 && (
+                <p className="p-8 text-center text-[#4B5E54]">
+                  Nenhum usuário encontrado.
+                </p>
+              )}
             </div>
           )}
         </div>
@@ -175,7 +223,9 @@ export default function UsuariosClient() {
           onClose={() => setEditingUser(null)}
           onSaved={(updatedUser) => {
             setUsers((currentUsers) =>
-              currentUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+              currentUsers.map((user) =>
+                user.id === updatedUser.id ? updatedUser : user,
+              ),
             );
             setEditingUser(null);
           }}

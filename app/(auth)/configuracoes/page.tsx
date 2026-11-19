@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { LuMonitor, LuMoon, LuSun, LuGlobe, LuBell, LuSettings, LuCheck, LuRotateCcw } from "react-icons/lu";
+import {
+  LuMonitor,
+  LuMoon,
+  LuSun,
+  LuGlobe,
+  LuBell,
+  LuSettings,
+  LuCheck,
+  LuRotateCcw,
+} from "react-icons/lu";
 import { useTheme } from "next-themes";
 
 interface Settings {
@@ -38,7 +47,7 @@ export default function ConfiguracoesPage() {
 
   const handleSettingChange = <K extends keyof Settings>(
     key: K,
-    value: Settings[K]
+    value: Settings[K],
   ) => {
     setSettings({ ...settings, [key]: value });
     if (key === "theme") {
@@ -126,7 +135,12 @@ export default function ConfiguracoesPage() {
                   {["light", "dark", "system"].map((themeOption) => (
                     <button
                       key={themeOption}
-                      onClick={() => handleSettingChange("theme", themeOption as "light" | "dark" | "system")}
+                      onClick={() =>
+                        handleSettingChange(
+                          "theme",
+                          themeOption as "light" | "dark" | "system",
+                        )
+                      }
                       className={`flex-1 rounded-lg border px-4 py-3 text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
                         selectedTheme === themeOption
                           ? "border-zinc-400 bg-zinc-100 text-zinc-900 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-50"
@@ -159,7 +173,12 @@ export default function ConfiguracoesPage() {
                 </label>
                 <select
                   value={settings.language}
-                  onChange={(e) => handleSettingChange("language", e.target.value as "pt-BR" | "en" | "es")}
+                  onChange={(e) =>
+                    handleSettingChange(
+                      "language",
+                      e.target.value as "pt-BR" | "en" | "es",
+                    )
+                  }
                   className="w-full max-w-xs rounded-md border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-zinc-600 dark:focus:ring-zinc-600"
                 >
                   <option value="pt-BR">Português (Brasil)</option>
@@ -192,14 +211,23 @@ export default function ConfiguracoesPage() {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleSettingChange("emailNotifications", !settings.emailNotifications)}
+                  onClick={() =>
+                    handleSettingChange(
+                      "emailNotifications",
+                      !settings.emailNotifications,
+                    )
+                  }
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    settings.emailNotifications ? "bg-zinc-600" : "bg-zinc-300 dark:bg-zinc-700"
+                    settings.emailNotifications
+                      ? "bg-zinc-600"
+                      : "bg-zinc-300 dark:bg-zinc-700"
                   }`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      settings.emailNotifications ? "translate-x-6" : "translate-x-1"
+                      settings.emailNotifications
+                        ? "translate-x-6"
+                        : "translate-x-1"
                     }`}
                   />
                 </button>
@@ -215,14 +243,23 @@ export default function ConfiguracoesPage() {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleSettingChange("replyNotifications", !settings.replyNotifications)}
+                  onClick={() =>
+                    handleSettingChange(
+                      "replyNotifications",
+                      !settings.replyNotifications,
+                    )
+                  }
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    settings.replyNotifications ? "bg-zinc-600" : "bg-zinc-300 dark:bg-zinc-700"
+                    settings.replyNotifications
+                      ? "bg-zinc-600"
+                      : "bg-zinc-300 dark:bg-zinc-700"
                   }`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      settings.replyNotifications ? "translate-x-6" : "translate-x-1"
+                      settings.replyNotifications
+                        ? "translate-x-6"
+                        : "translate-x-1"
                     }`}
                   />
                 </button>
@@ -238,14 +275,23 @@ export default function ConfiguracoesPage() {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleSettingChange("statusNotifications", !settings.statusNotifications)}
+                  onClick={() =>
+                    handleSettingChange(
+                      "statusNotifications",
+                      !settings.statusNotifications,
+                    )
+                  }
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    settings.statusNotifications ? "bg-zinc-600" : "bg-zinc-300 dark:bg-zinc-700"
+                    settings.statusNotifications
+                      ? "bg-zinc-600"
+                      : "bg-zinc-300 dark:bg-zinc-700"
                   }`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      settings.statusNotifications ? "translate-x-6" : "translate-x-1"
+                      settings.statusNotifications
+                        ? "translate-x-6"
+                        : "translate-x-1"
                     }`}
                   />
                 </button>
@@ -270,7 +316,12 @@ export default function ConfiguracoesPage() {
                   {["10", "25", "50"].map((items) => (
                     <button
                       key={items}
-                      onClick={() => handleSettingChange("itemsPerPage", items as "10" | "25" | "50")}
+                      onClick={() =>
+                        handleSettingChange(
+                          "itemsPerPage",
+                          items as "10" | "25" | "50",
+                        )
+                      }
                       className={`flex-1 rounded-md border px-4 py-2 text-sm font-medium transition-colors ${
                         settings.itemsPerPage === items
                           ? "border-zinc-400 bg-zinc-100 text-zinc-900 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-50"
@@ -293,14 +344,23 @@ export default function ConfiguracoesPage() {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleSettingChange("confirmActions", !settings.confirmActions)}
+                  onClick={() =>
+                    handleSettingChange(
+                      "confirmActions",
+                      !settings.confirmActions,
+                    )
+                  }
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    settings.confirmActions ? "bg-zinc-600" : "bg-zinc-300 dark:bg-zinc-700"
+                    settings.confirmActions
+                      ? "bg-zinc-600"
+                      : "bg-zinc-300 dark:bg-zinc-700"
                   }`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      settings.confirmActions ? "translate-x-6" : "translate-x-1"
+                      settings.confirmActions
+                        ? "translate-x-6"
+                        : "translate-x-1"
                     }`}
                   />
                 </button>
@@ -314,7 +374,12 @@ export default function ConfiguracoesPage() {
                   {["DD/MM/YYYY", "MM/DD/YYYY"].map((format) => (
                     <button
                       key={format}
-                      onClick={() => handleSettingChange("dateFormat", format as "DD/MM/YYYY" | "MM/DD/YYYY")}
+                      onClick={() =>
+                        handleSettingChange(
+                          "dateFormat",
+                          format as "DD/MM/YYYY" | "MM/DD/YYYY",
+                        )
+                      }
                       className={`flex-1 rounded-md border px-4 py-2 text-sm font-medium transition-colors ${
                         settings.dateFormat === format
                           ? "border-zinc-400 bg-zinc-100 text-zinc-900 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-50"

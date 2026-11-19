@@ -1,12 +1,13 @@
 "use client";
 
 import { driver, type DriveStep } from "driver.js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { isDemoMode } from "@/lib/auth";
 import "driver.js/dist/driver.css";
 import "./demo-tour.css";
 
 const DISMISSED_KEY = "demo-tour-dismissed";
+const DISMISSED_EVENT = "demo-tour-dismissed-change";
 
 const highlights = [
   "Tabela de tickets",
@@ -16,18 +17,21 @@ const highlights = [
 ];
 
 export function DemoTourPrompt() {
-  const [visible, setVisible] = useState(false);
+  const visible = useSyncExternalStore(
+    (callback) => {
+      window.addEventListener(DISMISSED_EVENT, callback);
+      return () => window.removeEventListener(DISMISSED_EVENT, callback);
+    },
+    () => {
+      try {
+        return isDemoMode() && sessionStorage.getItem(DISMISSED_KEY) !== "1";
+      } catch {
+        return isDemoMode();
+      }
+    },
+    () => false,
+  );
   const startRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    let dismissed = false;
-    try {
-      dismissed = sessionStorage.getItem(DISMISSED_KEY) === "1";
-    } catch {
-      // storage indisponível: mostra o convite normalmente
-    }
-    setVisible(isDemoMode() && !dismissed);
-  }, []);
 
   const close = () => {
     try {
@@ -35,7 +39,7 @@ export function DemoTourPrompt() {
     } catch {
       // ignora
     }
-    setVisible(false);
+    window.dispatchEvent(new Event(DISMISSED_EVENT));
   };
 
   useEffect(() => {
@@ -72,21 +76,38 @@ export function DemoTourPrompt() {
               <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
             </svg>
           </span>
-          <span className="text-sm font-medium text-white/90">Modo demonstração</span>
+          <span className="text-sm font-medium text-white/90">
+            Modo demonstração
+          </span>
         </div>
 
         <div className="px-6 pb-6 pt-5">
-          <h2 id="demo-tour-title" className="text-xl font-semibold tracking-tight text-[#0F3D2A] dark:text-white">
+          <h2
+            id="demo-tour-title"
+            className="text-xl font-semibold tracking-tight text-[#0F3D2A] dark:text-white"
+          >
             Quer conhecer o Chamou em 1 minuto?
           </h2>
-          <p id="demo-tour-desc" className="mt-2 text-sm text-[#4B5E54] dark:text-zinc-400">
-            Um tour rápido mostra onde fica cada recurso. Você pode sair quando quiser.
+          <p
+            id="demo-tour-desc"
+            className="mt-2 text-sm text-[#4B5E54] dark:text-zinc-400"
+          >
+            Um tour rápido mostra onde fica cada recurso. Você pode sair quando
+            quiser.
           </p>
 
           <ul className="mt-4 space-y-2 text-sm">
             {highlights.map((item) => (
-              <li key={item} className="flex items-center gap-2.5 text-zinc-700 dark:text-zinc-300">
-                <svg viewBox="0 0 20 20" className="h-4 w-4 shrink-0 text-[#15803D]" fill="currentColor" aria-hidden="true">
+              <li
+                key={item}
+                className="flex items-center gap-2.5 text-zinc-700 dark:text-zinc-300"
+              >
+                <svg
+                  viewBox="0 0 20 20"
+                  className="h-4 w-4 shrink-0 text-[#15803D]"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
                   <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.8 3.8 6.8-6.8a1 1 0 0 1 1.4 0z" />
                 </svg>
                 {item}
@@ -134,7 +155,8 @@ const allSteps: DriveStep[] = [
     element: '[data-tour="create-ticket"]',
     popover: {
       title: "Criar ticket",
-      description: "Abra um novo ticket por aqui. No demo, a criação é simulada.",
+      description:
+        "Abra um novo ticket por aqui. No demo, a criação é simulada.",
       side: "bottom",
       align: "end",
     },
@@ -161,7 +183,8 @@ const allSteps: DriveStep[] = [
   {
     popover: {
       title: "Tudo pronto",
-      description: "Explore o demo à vontade. Você pode rever o tour recarregando a página.",
+      description:
+        "Explore o demo à vontade. Você pode rever o tour recarregando a página.",
     },
   },
 ];
@@ -169,10 +192,12 @@ const allSteps: DriveStep[] = [
 export function startDemoTour() {
   // Ignora passos cujo elemento não existe na tela atual (evita popover solto).
   const steps = allSteps.filter(
-    (s) => !s.element || document.querySelector(s.element as string)
+    (s) => !s.element || document.querySelector(s.element as string),
   );
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   const driverObj = driver({
     steps,

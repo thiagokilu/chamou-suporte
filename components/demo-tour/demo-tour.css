@@ -72,61 +72,67 @@
 }
 
 .driver-popover.chamou-tour .driver-popover-arrow-side-top.driver-popover-arrow,
-.driver-popover.chamou-tour .driver-popover-arrow-side-bottom.driver-popover-arrow,
-.driver-popover.chamou-tour .driver-popover-arrow-side-left.driver-popover-arrow,
-.driver-popover.chamou-tour .driver-popover-arrow-side-right.driver-popover-arrow {
+.driver-popover.chamou-tour
+  .driver-popover-arrow-side-bottom.driver-popover-arrow,
+.driver-popover.chamou-tour
+  .driver-popover-arrow-side-left.driver-popover-arrow,
+.driver-popover.chamou-tour
+  .driver-popover-arrow-side-right.driver-popover-arrow {
   /* a seta herda a cor do fundo do popover */
 }
 
 /* Dark mode styling for tour popover */
 html.dark .driver-popover.chamou-tour {
-  background: #1C1F23;
-  color: #F1F3F5;
-  border: 1px solid #30353B;
+  background: #1c1f23;
+  color: #f1f3f5;
+  border: 1px solid #30353b;
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-title {
-  color: #F1F3F5;
+  color: #f1f3f5;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-description {
-  color: #9BA3AD;
+  color: #9ba3ad;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-progress-text {
-  color: #68717D;
+  color: #68717d;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-close-btn {
-  color: #9BA3AD;
+  color: #9ba3ad;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-close-btn:hover {
-  color: #F1F3F5;
+  color: #f1f3f5;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-prev-btn {
   background: transparent;
-  color: #9BA3AD;
+  color: #9ba3ad;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-prev-btn:hover {
-  background: #24282D;
-  color: #F1F3F5;
+  background: #24282d;
+  color: #f1f3f5;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-next-btn {
-  background: #3B82F6;
-  color: #FFFFFF;
+  background: #3b82f6;
+  color: #ffffff;
 }
 
 html.dark .driver-popover.chamou-tour .driver-popover-next-btn:hover {
-  background: #2563EB;
+  background: #2563eb;
 }
 
-html.dark .driver-popover.chamou-tour .driver-popover-footer button:focus-visible,
+html.dark
+  .driver-popover.chamou-tour
+  .driver-popover-footer
+  button:focus-visible,
 html.dark .driver-popover.chamou-tour .driver-popover-close-btn:focus-visible {
-  outline: 2px solid #3B82F6;
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }

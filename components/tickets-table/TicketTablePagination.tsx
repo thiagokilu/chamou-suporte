@@ -29,12 +29,27 @@ export function TicketTablePagination({
         por página
       </label>
       <div className="flex items-center gap-4">
-        <span className="text-sm text-[#4B5E54]">Página <span className="tabular-nums">{currentPage} de {totalPages}</span></span>
+        <span className="text-sm text-[#4B5E54]">
+          Página{" "}
+          <span className="tabular-nums">
+            {currentPage} de {totalPages}
+          </span>
+        </span>
         <div className="flex gap-1">
-          <button aria-label="Página anterior" disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} className="rounded-lg border border-[#D8E1DA] p-1.5 text-[#4B5E54] transition-colors hover:bg-[#DDF3E4] hover:text-[#0F3D2A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none">
+          <button
+            aria-label="Página anterior"
+            disabled={currentPage === 1}
+            onClick={() => onPageChange(currentPage - 1)}
+            className="rounded-lg border border-[#D8E1DA] p-1.5 text-[#4B5E54] transition-colors hover:bg-[#DDF3E4] hover:text-[#0F3D2A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none"
+          >
             <FiChevronLeft aria-hidden="true" />
           </button>
-          <button aria-label="Próxima página" disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} className="rounded-lg border border-[#D8E1DA] p-1.5 text-[#4B5E54] transition-colors hover:bg-[#DDF3E4] hover:text-[#0F3D2A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none">
+          <button
+            aria-label="Próxima página"
+            disabled={currentPage === totalPages}
+            onClick={() => onPageChange(currentPage + 1)}
+            className="rounded-lg border border-[#D8E1DA] p-1.5 text-[#4B5E54] transition-colors hover:bg-[#DDF3E4] hover:text-[#0F3D2A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none"
+          >
             <FiChevronRight aria-hidden="true" />
           </button>
         </div>

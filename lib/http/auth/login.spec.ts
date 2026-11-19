@@ -29,7 +29,7 @@ describe("login", () => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-      })
+      }),
     );
   });
 
@@ -40,7 +40,7 @@ describe("login", () => {
     });
 
     await expect(login(email, "wrong-password")).rejects.toThrow(
-      "Não foi possível fazer login (401)."
+      "Não foi possível fazer login (401).",
     );
   });
 });

@@ -65,7 +65,12 @@ describe("getStoredUser", () => {
   it("aceita username como nome e descarta se igual ao email", () => {
     localStorage.setItem(
       "tickets_user",
-      JSON.stringify({ id: "2", username: "Beto", email: "b@x.com", role: "CLIENT" }),
+      JSON.stringify({
+        id: "2",
+        username: "Beto",
+        email: "b@x.com",
+        role: "CLIENT",
+      }),
     );
     expect(getStoredUser()?.name).toBe("Beto");
   });

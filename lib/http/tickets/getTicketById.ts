@@ -18,11 +18,7 @@ export class TicketsRequestError extends Error {
 }
 
 export type TicketStatus =
-  | "OPEN"
-  | "IN_PROGRESS"
-  | "WAITING_FOR_CUSTOMER"
-  | "RESOLVED"
-  | "CLOSED";
+  "OPEN" | "IN_PROGRESS" | "WAITING_FOR_CUSTOMER" | "RESOLVED" | "CLOSED";
 
 export type TicketPriority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
 
@@ -84,24 +80,27 @@ export async function getTicketById(
   }
 
   const ticketUrl = baseUrl
-    ? new URL(`${GET_TICKETS_URL}/${encodeURIComponent(id)}`, baseUrl).toString()
+    ? new URL(
+        `${GET_TICKETS_URL}/${encodeURIComponent(id)}`,
+        baseUrl,
+      ).toString()
     : `${GET_TICKETS_URL}/${encodeURIComponent(id)}`;
 
-  const response = await axios.get<ApiTicket | { data: ApiTicket }>(
-    ticketUrl,
-    {
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + token,
-      },
-      signal,
-      validateStatus: () => true,
+  const response = await axios.get<ApiTicket | { data: ApiTicket }>(ticketUrl, {
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer " + token,
     },
-  );
+    signal,
+    validateStatus: () => true,
+  });
 
   if (response.status < 200 || response.status >= 300) {
     if (response.status === 401) {
-      throw new TicketsRequestError("Sua sessão expirou. Faça login novamente.", response.status);
+      throw new TicketsRequestError(
+        "Sua sessão expirou. Faça login novamente.",
+        response.status,
+      );
     }
 
     throw new TicketsRequestError(
@@ -142,23 +141,33 @@ const priorityLabels: Record<TicketPriority, string> = {
   URGENT: "Urgente",
 };
 
-
 export async function getTickets(
   params: GetTicketsParams = {},
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<GetTicketsResponse> {
   if (isDemoMode()) {
-    const filtered = MOCK_TICKETS.filter((ticket) =>
-      (!params.status || ticket.status === params.status) &&
-      (!params.priority || ticket.priority === params.priority) &&
-      (!params.name || `${ticket.title} ${ticket.description}`.toLowerCase().includes(params.name.toLowerCase()))
+    const filtered = MOCK_TICKETS.filter(
+      (ticket) =>
+        (!params.status || ticket.status === params.status) &&
+        (!params.priority || ticket.priority === params.priority) &&
+        (!params.name ||
+          `${ticket.title} ${ticket.description}`
+            .toLowerCase()
+            .includes(params.name.toLowerCase())),
     );
     const page = params.page ?? 1;
     const perPage = params.perPage ?? filtered.length;
     const start = (page - 1) * perPage;
     return {
       data: filtered.slice(start, start + perPage),
-      meta: { total: filtered.length, lastPage: Math.max(1, Math.ceil(filtered.length / perPage)), currentPage: page, perPage, prev: page > 1 ? page - 1 : null, next: start + perPage < filtered.length ? page + 1 : null },
+      meta: {
+        total: filtered.length,
+        lastPage: Math.max(1, Math.ceil(filtered.length / perPage)),
+        currentPage: page,
+        perPage,
+        prev: page > 1 ? page - 1 : null,
+        next: start + perPage < filtered.length ? page + 1 : null,
+      },
     };
   }
 
@@ -179,7 +188,10 @@ export async function getTickets(
 
   if (response.status < 200 || response.status >= 300) {
     if (response.status === 401) {
-      throw new TicketsRequestError("Sua sessão expirou. Faça login novamente.", response.status);
+      throw new TicketsRequestError(
+        "Sua sessão expirou. Faça login novamente.",
+        response.status,
+      );
     }
 
     throw new TicketsRequestError(

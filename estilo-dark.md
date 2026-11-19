@@ -20,48 +20,48 @@ Stack: Next.js (App Router), Tailwind CSS.
 
 ### Fundos e superfícies
 
-| Nome | Hex | Uso |
-|---|---|---|
-| Fundo da página | `#0C1B14` | Fundo geral |
-| Superfície | `#12261C` | Cartões, painéis, header |
+| Nome               | Hex       | Uso                                                        |
+| ------------------ | --------- | ---------------------------------------------------------- |
+| Fundo da página    | `#0C1B14` | Fundo geral                                                |
+| Superfície         | `#12261C` | Cartões, painéis, header                                   |
 | Superfície elevada | `#183226` | Balões recebidos, menus suspensos, modais, hover de linhas |
-| Lateral e rodapé | `#0A2A1D` | Sidebar e footer (verde mais fechado que o fundo) |
+| Lateral e rodapé   | `#0A2A1D` | Sidebar e footer (verde mais fechado que o fundo)          |
 
 ### Linhas
 
-| Nome | Hex | Uso |
-|---|---|---|
-| Linha | `#234134` | Bordas de cartões, header, divisores principais |
-| Linha suave | `#1B3328` | Divisores internos de listas |
-| Linha da lateral | `#1F4A36` | Borda direita da sidebar |
+| Nome             | Hex       | Uso                                             |
+| ---------------- | --------- | ----------------------------------------------- |
+| Linha            | `#234134` | Bordas de cartões, header, divisores principais |
+| Linha suave      | `#1B3328` | Divisores internos de listas                    |
+| Linha da lateral | `#1F4A36` | Borda direita da sidebar                        |
 
 ### Texto
 
-| Nome | Hex | Uso | Contraste sobre `#0C1B14` |
-|---|---|---|---|
-| Texto principal | `#E8F3EC` | Títulos e texto de leitura | ~15:1 |
-| Texto secundário | `#9DB5A7` | Descrições, rótulos, navegação | ~8:1 |
-| Texto desativado | `#6B8576` | Campos e botões desativados (nunca para informação importante) | Decorativo |
+| Nome             | Hex       | Uso                                                            | Contraste sobre `#0C1B14` |
+| ---------------- | --------- | -------------------------------------------------------------- | ------------------------- |
+| Texto principal  | `#E8F3EC` | Títulos e texto de leitura                                     | ~15:1                     |
+| Texto secundário | `#9DB5A7` | Descrições, rótulos, navegação                                 | ~8:1                      |
+| Texto desativado | `#6B8576` | Campos e botões desativados (nunca para informação importante) | Decorativo                |
 
 ### Verdes
 
-| Nome | Hex | Uso |
-|---|---|---|
-| Ação | `#34D399` (emerald-400) | Botão primário (fundo), links, linha de progresso, foco ativo |
-| Ação (hover) | `#6EE7B7` (emerald-300) | Hover do botão primário, anel de foco |
-| Texto sobre ação | `#062416` | Texto dentro do botão primário (~8,7:1 sobre `#34D399`) |
-| Verde de apoio | `#A7F3D0` (emerald-200) | Texto do botão contorno, ícones destacados |
-| Verde translúcido | `#34D399` a 15% | Fundo de ícones, selos e hover suave |
-| Verde da marca | `#15803D` | Balão enviado (com texto branco, ~5:1) |
+| Nome              | Hex                     | Uso                                                           |
+| ----------------- | ----------------------- | ------------------------------------------------------------- |
+| Ação              | `#34D399` (emerald-400) | Botão primário (fundo), links, linha de progresso, foco ativo |
+| Ação (hover)      | `#6EE7B7` (emerald-300) | Hover do botão primário, anel de foco                         |
+| Texto sobre ação  | `#062416`               | Texto dentro do botão primário (~8,7:1 sobre `#34D399`)       |
+| Verde de apoio    | `#A7F3D0` (emerald-200) | Texto do botão contorno, ícones destacados                    |
+| Verde translúcido | `#34D399` a 15%         | Fundo de ícones, selos e hover suave                          |
+| Verde da marca    | `#15803D`               | Balão enviado (com texto branco, ~5:1)                        |
 
 ### Prioridades (versão translúcida, sempre com texto)
 
-| Prioridade | Classes Tailwind |
-|---|---|
-| Baixa | `bg-emerald-400/15 text-emerald-200` |
-| Média | `bg-sky-400/15 text-sky-200` |
-| Alta | `bg-amber-400/15 text-amber-200` |
-| Urgente | `bg-rose-400/15 text-rose-200` |
+| Prioridade | Classes Tailwind                     |
+| ---------- | ------------------------------------ |
+| Baixa      | `bg-emerald-400/15 text-emerald-200` |
+| Média      | `bg-sky-400/15 text-sky-200`         |
+| Alta       | `bg-amber-400/15 text-amber-200`     |
+| Urgente    | `bg-rose-400/15 text-rose-200`       |
 
 ### Ação destrutiva
 
@@ -76,40 +76,40 @@ Centralizar as cores em variáveis evita repetir `dark:` em cada componente e de
 ```css
 :root {
   color-scheme: light;
-  --ch-bg: #F5F7F4;
-  --ch-surface: #FFFFFF;
-  --ch-surface-raised: #F2F6F3;
-  --ch-side: #0F3D2A;
-  --ch-line: #D8E1DA;
-  --ch-line-soft: #E6ECE7;
-  --ch-ink: #10241A;
-  --ch-muted: #4B5E54;
-  --ch-action: #15803D;
-  --ch-action-hover: #116A32;
-  --ch-on-action: #FFFFFF;
-  --ch-tint: #DDF3E4;
-  --ch-focus: #15803D;
+  --ch-bg: #f5f7f4;
+  --ch-surface: #ffffff;
+  --ch-surface-raised: #f2f6f3;
+  --ch-side: #0f3d2a;
+  --ch-line: #d8e1da;
+  --ch-line-soft: #e6ece7;
+  --ch-ink: #10241a;
+  --ch-muted: #4b5e54;
+  --ch-action: #15803d;
+  --ch-action-hover: #116a32;
+  --ch-on-action: #ffffff;
+  --ch-tint: #ddf3e4;
+  --ch-focus: #15803d;
 }
 
 .dark {
   color-scheme: dark;
-  --ch-bg: #0C1B14;
-  --ch-surface: #12261C;
+  --ch-bg: #0c1b14;
+  --ch-surface: #12261c;
   --ch-surface-raised: #183226;
-  --ch-side: #0A2A1D;
+  --ch-side: #0a2a1d;
   --ch-line: #234134;
-  --ch-line-soft: #1B3328;
-  --ch-ink: #E8F3EC;
-  --ch-muted: #9DB5A7;
-  --ch-action: #34D399;
-  --ch-action-hover: #6EE7B7;
+  --ch-line-soft: #1b3328;
+  --ch-ink: #e8f3ec;
+  --ch-muted: #9db5a7;
+  --ch-action: #34d399;
+  --ch-action-hover: #6ee7b7;
   --ch-on-action: #062416;
   --ch-tint: rgb(52 211 153 / 0.15);
-  --ch-focus: #6EE7B7;
+  --ch-focus: #6ee7b7;
 }
 
 ::selection {
-  background: #34D399;
+  background: #34d399;
   color: #062416;
 }
 ```
@@ -141,7 +141,9 @@ Sem configuração extra: o Tailwind aplica `dark:` quando o sistema do usuário
 
 ```css
 @media (prefers-color-scheme: dark) {
-  :root { /* mesmos valores de .dark */ }
+  :root {
+    /* mesmos valores de .dark */
+  }
 }
 ```
 
@@ -196,7 +198,11 @@ export function ThemeToggle() {
       aria-label={dark ? "Mudar para o modo claro" : "Mudar para o modo escuro"}
       className="rounded-md p-2 text-[var(--ch-muted)] transition-colors hover:bg-[var(--ch-surface-raised)] hover:text-[var(--ch-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ch-focus)]"
     >
-      {dark ? <LuSun className="size-5" aria-hidden="true" /> : <LuMoon className="size-5" aria-hidden="true" />}
+      {dark ? (
+        <LuSun className="size-5" aria-hidden="true" />
+      ) : (
+        <LuMoon className="size-5" aria-hidden="true" />
+      )}
     </button>
   );
 }
@@ -208,22 +214,22 @@ Onde colocar: no header público (ao lado de **Entrar**) e na página de **Confi
 
 ## 5. Componentes: do claro para o escuro
 
-| Componente | Claro | Escuro |
-|---|---|---|
-| Fundo da página | `#F5F7F4` | `#0C1B14` |
-| Cartão | `bg-white` + borda `#D8E1DA` | `#12261C` + borda `#234134` |
-| Título | `#0F3D2A` | `#E8F3EC` |
-| Texto secundário | `#4B5E54` | `#9DB5A7` |
-| Botão primário | fundo `#15803D`, texto branco | fundo `#34D399`, texto `#062416` |
-| Botão contorno | borda `#15803D`, texto `#0F3D2A`, hover `#DDF3E4` | borda `#34D399`, texto `#A7F3D0`, hover `#34D399` a 10% |
-| Quadrado de ícone | `#DDF3E4` + ícone `#0F3D2A` | `#34D399` a 15% + ícone `#6EE7B7` |
-| Divisores de lista | `#E6ECE7` | `#1B3328` |
-| Balão recebido | `#F2F6F3` | `#183226` |
-| Balão enviado | `#15803D`, texto branco | `#15803D`, texto branco |
-| Etiquetas de prioridade | `-100` com texto `-900` | `/15` translúcido com texto `-200` |
-| Header | `#F5F7F4` a 95% + blur | `#0C1B14` a 90% + blur, borda `#234134` |
-| Rodapé | `#0F3D2A` | `#0A2A1D` + borda superior `#234134` |
-| Anel de foco | `#15803D` | `#6EE7B7` (com `ring-offset` na cor do fundo) |
+| Componente              | Claro                                             | Escuro                                                  |
+| ----------------------- | ------------------------------------------------- | ------------------------------------------------------- |
+| Fundo da página         | `#F5F7F4`                                         | `#0C1B14`                                               |
+| Cartão                  | `bg-white` + borda `#D8E1DA`                      | `#12261C` + borda `#234134`                             |
+| Título                  | `#0F3D2A`                                         | `#E8F3EC`                                               |
+| Texto secundário        | `#4B5E54`                                         | `#9DB5A7`                                               |
+| Botão primário          | fundo `#15803D`, texto branco                     | fundo `#34D399`, texto `#062416`                        |
+| Botão contorno          | borda `#15803D`, texto `#0F3D2A`, hover `#DDF3E4` | borda `#34D399`, texto `#A7F3D0`, hover `#34D399` a 10% |
+| Quadrado de ícone       | `#DDF3E4` + ícone `#0F3D2A`                       | `#34D399` a 15% + ícone `#6EE7B7`                       |
+| Divisores de lista      | `#E6ECE7`                                         | `#1B3328`                                               |
+| Balão recebido          | `#F2F6F3`                                         | `#183226`                                               |
+| Balão enviado           | `#15803D`, texto branco                           | `#15803D`, texto branco                                 |
+| Etiquetas de prioridade | `-100` com texto `-900`                           | `/15` translúcido com texto `-200`                      |
+| Header                  | `#F5F7F4` a 95% + blur                            | `#0C1B14` a 90% + blur, borda `#234134`                 |
+| Rodapé                  | `#0F3D2A`                                         | `#0A2A1D` + borda superior `#234134`                    |
+| Anel de foco            | `#15803D`                                         | `#6EE7B7` (com `ring-offset` na cor do fundo)           |
 
 ### Sidebar
 
@@ -242,13 +248,13 @@ A sidebar já é escura no modo claro, então muda pouco:
 
 ### Campos de formulário
 
-| Estado | Estilo |
-|---|---|
-| Padrão | `bg-[#12261C] border-[#234134] text-[#E8F3EC]`, placeholder `#6B8576` |
-| Hover | borda `#2F5A47` |
-| Foco | borda `#34D399` + anel `#6EE7B7` a 40% |
-| Erro | borda `#FB7185`, mensagem `#FDA4AF` com ícone |
-| Desativado | `bg-[#0F2119]`, texto `#6B8576` |
+| Estado     | Estilo                                                                |
+| ---------- | --------------------------------------------------------------------- |
+| Padrão     | `bg-[#12261C] border-[#234134] text-[#E8F3EC]`, placeholder `#6B8576` |
+| Hover      | borda `#2F5A47`                                                       |
+| Foco       | borda `#34D399` + anel `#6EE7B7` a 40%                                |
+| Erro       | borda `#FB7185`, mensagem `#FDA4AF` com ícone                         |
+| Desativado | `bg-[#0F2119]`, texto `#6B8576`                                       |
 
 ---
 
@@ -256,12 +262,12 @@ A sidebar já é escura no modo claro, então muda pouco:
 
 Sem sombras fortes. A elevação vem da cor da superfície:
 
-| Camada | Cor |
-|---|---|
-| 0 – Página | `#0C1B14` |
-| 1 – Cartões e painéis | `#12261C` |
-| 2 – Menus suspensos, balões, linhas em hover | `#183226` |
-| 3 – Modais e popovers | `#183226` + borda `#2F5A47` + fundo escurecido atrás (`bg-black/60`) |
+| Camada                                       | Cor                                                                  |
+| -------------------------------------------- | -------------------------------------------------------------------- |
+| 0 – Página                                   | `#0C1B14`                                                            |
+| 1 – Cartões e painéis                        | `#12261C`                                                            |
+| 2 – Menus suspensos, balões, linhas em hover | `#183226`                                                            |
+| 3 – Modais e popovers                        | `#183226` + borda `#2F5A47` + fundo escurecido atrás (`bg-black/60`) |
 
 Sempre acompanhe a camada mais alta de uma borda de 1px, para separar superfícies de tons próximos.
 

@@ -245,7 +245,9 @@ const server = createServer(async (request, response) => {
         return;
       }
 
-      const ticket = tickets.find((item) => item.id === decodeURIComponent(ticketMatch[1]));
+      const ticket = tickets.find(
+        (item) => item.id === decodeURIComponent(ticketMatch[1]),
+      );
       if (!ticket) {
         sendJson(response, 404, { message: "Chamado não encontrado." });
         return;
@@ -261,7 +263,9 @@ const server = createServer(async (request, response) => {
         return;
       }
 
-      const ticket = tickets.find((item) => item.id === decodeURIComponent(ticketMatch[1]));
+      const ticket = tickets.find(
+        (item) => item.id === decodeURIComponent(ticketMatch[1]),
+      );
       if (!ticket) {
         sendJson(response, 404, { message: "Chamado não encontrado." });
         return;

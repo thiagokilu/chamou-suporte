@@ -2,7 +2,11 @@
 
 import { Suspense, use, useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { getTicketById, type TicketPriority, type TicketStatus } from "@/lib/http/tickets/getTicketById";
+import {
+  getTicketById,
+  type TicketPriority,
+  type TicketStatus,
+} from "@/lib/http/tickets/getTicketById";
 import { updateTicket } from "@/lib/http/tickets/updateTicket";
 import type { Ticket } from "@/lib/tickets";
 import { getStoredUser, isAdmin, isAgent } from "@/lib/auth";
@@ -45,28 +49,28 @@ const priorityOptions: { label: string; value: TicketPriority }[] = [
 ];
 
 const statusToApi: Record<string, TicketStatus> = {
-  "Aberto": "OPEN",
+  Aberto: "OPEN",
   "Em andamento": "IN_PROGRESS",
   "Aguardando resposta": "WAITING_FOR_CUSTOMER",
   "Aguardando cliente": "WAITING_FOR_CUSTOMER",
-  "Resolvido": "RESOLVED",
-  "Fechado": "CLOSED",
-  "OPEN": "OPEN",
-  "IN_PROGRESS": "IN_PROGRESS",
-  "WAITING_FOR_CUSTOMER": "WAITING_FOR_CUSTOMER",
-  "RESOLVED": "RESOLVED",
-  "CLOSED": "CLOSED",
+  Resolvido: "RESOLVED",
+  Fechado: "CLOSED",
+  OPEN: "OPEN",
+  IN_PROGRESS: "IN_PROGRESS",
+  WAITING_FOR_CUSTOMER: "WAITING_FOR_CUSTOMER",
+  RESOLVED: "RESOLVED",
+  CLOSED: "CLOSED",
 };
 
 const priorityToApi: Record<string, TicketPriority> = {
-  "Baixa": "LOW",
-  "Média": "MEDIUM",
-  "Alta": "HIGH",
-  "Urgente": "URGENT",
-  "LOW": "LOW",
-  "MEDIUM": "MEDIUM",
-  "HIGH": "HIGH",
-  "URGENT": "URGENT",
+  Baixa: "LOW",
+  Média: "MEDIUM",
+  Alta: "HIGH",
+  Urgente: "URGENT",
+  LOW: "LOW",
+  MEDIUM: "MEDIUM",
+  HIGH: "HIGH",
+  URGENT: "URGENT",
 };
 
 export default function ChamadoDetailPage({ params }: PageProps) {
@@ -102,7 +106,11 @@ function ChamadoContent({ params }: PageProps) {
       })
       .catch((reason: unknown) => {
         if (active) {
-          setError(reason instanceof Error ? reason.message : "Não foi possível carregar o chamado.");
+          setError(
+            reason instanceof Error
+              ? reason.message
+              : "Não foi possível carregar o chamado.",
+          );
         }
       });
 
@@ -117,10 +125,12 @@ function ChamadoContent({ params }: PageProps) {
     if (!ticket) return;
     startUpdate(async () => {
       try {
-        const updated = await updateTicket(String(ticket.id), { status: newStatus });
+        const updated = await updateTicket(String(ticket.id), {
+          status: newStatus,
+        });
         setTicket(updated);
         toast.success("Status atualizado com sucesso!");
-      } catch (err) {
+      } catch {
         toast.error("Erro ao atualizar status.");
       }
     });
@@ -130,10 +140,12 @@ function ChamadoContent({ params }: PageProps) {
     if (!ticket) return;
     startUpdate(async () => {
       try {
-        const updated = await updateTicket(String(ticket.id), { priority: newPriority });
+        const updated = await updateTicket(String(ticket.id), {
+          priority: newPriority,
+        });
         setTicket(updated);
         toast.success("Prioridade atualizada com sucesso!");
-      } catch (err) {
+      } catch {
         toast.error("Erro ao atualizar prioridade.");
       }
     });
@@ -169,7 +181,8 @@ function ChamadoContent({ params }: PageProps) {
   const currentStatusVal = statusToApi[ticket.status] ?? "OPEN";
   const currentPriorityVal = priorityToApi[ticket.prioridade] ?? "MEDIUM";
   const statusDot = getStatusDot(ticket.status);
-  const isInProgress = ticket.status === "Em andamento" || ticket.status === "IN_PROGRESS";
+  const isInProgress =
+    ticket.status === "Em andamento" || ticket.status === "IN_PROGRESS";
 
   /* ── Aside panel (shared between mobile overlay and desktop sidebar) ── */
   const AsideContent = () => (
@@ -188,7 +201,9 @@ function ChamadoContent({ params }: PageProps) {
               <select
                 value={currentStatusVal}
                 disabled={isUpdating}
-                onChange={(e) => handleStatusChange(e.target.value as TicketStatus)}
+                onChange={(e) =>
+                  handleStatusChange(e.target.value as TicketStatus)
+                }
                 className="w-full rounded-lg border border-[var(--ch-line)] bg-[var(--ch-bg)] px-3 py-2 text-sm text-[var(--ch-ink)] focus:outline-none focus:ring-2 focus:ring-[var(--ch-action)] focus:border-[var(--ch-action)] transition disabled:opacity-50"
               >
                 {statusOptions.map((opt) => (
@@ -206,7 +221,9 @@ function ChamadoContent({ params }: PageProps) {
               <select
                 value={currentPriorityVal}
                 disabled={isUpdating}
-                onChange={(e) => handlePriorityChange(e.target.value as TicketPriority)}
+                onChange={(e) =>
+                  handlePriorityChange(e.target.value as TicketPriority)
+                }
                 className="w-full rounded-lg border border-[var(--ch-line)] bg-[var(--ch-bg)] px-3 py-2 text-sm text-[var(--ch-ink)] focus:outline-none focus:ring-2 focus:ring-[var(--ch-action)] focus:border-[var(--ch-action)] transition disabled:opacity-50"
               >
                 {priorityOptions.map((opt) => (
@@ -301,7 +318,9 @@ function ChamadoContent({ params }: PageProps) {
               <FiAlertCircle className="h-3 w-3 text-amber-500" />
             </span>
             <p className="text-xs font-medium text-[var(--ch-ink)]">
-              {ticket.agente ? `Atribuído a ${ticket.agente}` : "Aguardando atribuição"}
+              {ticket.agente
+                ? `Atribuído a ${ticket.agente}`
+                : "Aguardando atribuição"}
             </p>
             <p className="mt-0.5 text-[11px] text-[var(--ch-muted)]">
               {formatDate(ticket.dataAtualizacao)}
@@ -327,10 +346,15 @@ function ChamadoContent({ params }: PageProps) {
             <FiArrowLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Voltar</span>
           </button>
-          <span className="hidden sm:block h-4 w-px bg-[var(--ch-line)]" aria-hidden />
+          <span
+            className="hidden sm:block h-4 w-px bg-[var(--ch-line)]"
+            aria-hidden
+          />
           <span className="hidden sm:inline text-xs text-[var(--ch-muted)] font-medium">
             Chamados&nbsp;/&nbsp;
-            <span className="font-semibold text-[var(--ch-ink)]">#{ticket.id}</span>
+            <span className="font-semibold text-[var(--ch-ink)]">
+              #{ticket.id}
+            </span>
           </span>
         </div>
 
@@ -366,7 +390,11 @@ function ChamadoContent({ params }: PageProps) {
             aria-label={asideOpen ? "Fechar informações" : "Ver informações"}
             className="lg:hidden inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-sm font-medium text-[var(--ch-muted)] ring-1 ring-[var(--ch-line)] transition hover:bg-[var(--ch-tint)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ch-focus)]"
           >
-            {asideOpen ? <FiX className="h-4 w-4" /> : <FiInfo className="h-4 w-4" />}
+            {asideOpen ? (
+              <FiX className="h-4 w-4" />
+            ) : (
+              <FiInfo className="h-4 w-4" />
+            )}
             <span className="text-xs">Info</span>
           </button>
         </div>
@@ -381,7 +409,7 @@ function ChamadoContent({ params }: PageProps) {
 
         {/* ── Desktop aside ── */}
         <aside className="hidden lg:flex w-80 xl:w-[22rem] shrink-0 flex-col border-l border-[var(--ch-line)] bg-[var(--ch-surface)] overflow-y-auto">
-          <AsideContent />
+          {AsideContent()}
         </aside>
 
         {/* ── Mobile aside overlay ── */}
@@ -397,7 +425,9 @@ function ChamadoContent({ params }: PageProps) {
             <aside className="lg:hidden fixed right-0 top-0 bottom-0 z-40 w-80 flex flex-col border-l border-[var(--ch-line)] bg-[var(--ch-surface)] overflow-y-auto shadow-2xl">
               {/* Drawer header */}
               <div className="flex items-center justify-between border-b border-[var(--ch-line)] px-5 py-4">
-                <span className="text-sm font-semibold text-[var(--ch-ink)]">Informações</span>
+                <span className="text-sm font-semibold text-[var(--ch-ink)]">
+                  Informações
+                </span>
                 <button
                   onClick={() => setAsideOpen(false)}
                   aria-label="Fechar painel"
@@ -406,7 +436,7 @@ function ChamadoContent({ params }: PageProps) {
                   <FiX className="h-4 w-4" />
                 </button>
               </div>
-              <AsideContent />
+              {AsideContent()}
             </aside>
           </>
         )}

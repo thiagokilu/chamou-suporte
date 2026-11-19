@@ -1,11 +1,14 @@
 "use client";
 
-import { createTicket, type CreateTicketInput } from "@/lib/http/tickets/createTicket";
+import {
+  createTicket,
+  type CreateTicketInput,
+} from "@/lib/http/tickets/createTicket";
 import { useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiPaperclip, FiX } from "react-icons/fi";
-import {toast} from "sonner"
- 
+import { toast } from "sonner";
+
 const MAX_FILES = 5;
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
 
@@ -18,7 +21,11 @@ interface CreateTicketModalProps {
 const inputClassName =
   "mt-1 w-full rounded-lg border border-[#D8E1DA] bg-white px-3 py-2.5 text-sm text-[#10241A] outline-none placeholder:text-[#718078] focus-visible:border-[#15803D] focus-visible:ring-2 focus-visible:ring-[#15803D]/20";
 
-export function CreateTicketModal({ open, onClose, onCreated }: CreateTicketModalProps) {
+export function CreateTicketModal({
+  open,
+  onClose,
+  onCreated,
+}: CreateTicketModalProps) {
   const titleId = useId();
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,13 +42,17 @@ export function CreateTicketModal({ open, onClose, onCreated }: CreateTicketModa
   const addFiles = (incoming: File[]) => {
     const valid = incoming.filter((file) => file.size <= MAX_SIZE);
     if (valid.length < incoming.length) {
-      setError("root", { message: "Alguns arquivos passam de 5 MB e foram ignorados." });
+      setError("root", {
+        message: "Alguns arquivos passam de 5 MB e foram ignorados.",
+      });
     }
     setFiles((previous) => [...previous, ...valid].slice(0, MAX_FILES));
   };
 
   const removeFile = (index: number) => {
-    setFiles((previous) => previous.filter((_, fileIndex) => fileIndex !== index));
+    setFiles((previous) =>
+      previous.filter((_, fileIndex) => fileIndex !== index),
+    );
   };
 
   useEffect(() => {
@@ -70,7 +81,10 @@ export function CreateTicketModal({ open, onClose, onCreated }: CreateTicketModa
       toast.success("Ticket criado com sucesso!");
     } catch (reason: unknown) {
       setError("root", {
-        message: reason instanceof Error ? reason.message : "Não foi possível criar o ticket.",
+        message:
+          reason instanceof Error
+            ? reason.message
+            : "Não foi possível criar o ticket.",
       });
     }
   };
@@ -91,7 +105,9 @@ export function CreateTicketModal({ open, onClose, onCreated }: CreateTicketModa
             <h2 id={titleId} className="text-xl font-bold text-[#0F3D2A]">
               Novo chamado
             </h2>
-            <p className="mt-1 text-sm text-[#4B5E54]">Descreva a solicitação de suporte.</p>
+            <p className="mt-1 text-sm text-[#4B5E54]">
+              Descreva a solicitação de suporte.
+            </p>
           </div>
           <button
             type="button"
@@ -113,7 +129,11 @@ export function CreateTicketModal({ open, onClose, onCreated }: CreateTicketModa
               placeholder="Ex.: Erro ao acessar o sistema"
               autoFocus
             />
-            {errors.title && <span className="mt-1 block text-xs text-red-700">{errors.title.message}</span>}
+            {errors.title && (
+              <span className="mt-1 block text-xs text-red-700">
+                {errors.title.message}
+              </span>
+            )}
           </label>
 
           <label className="block text-sm font-medium text-[#3F5248]">
@@ -124,61 +144,67 @@ export function CreateTicketModal({ open, onClose, onCreated }: CreateTicketModa
               placeholder="Explique o que aconteceu e como podemos ajudar."
             />
             {errors.description && (
-              <span className="mt-1 block text-xs text-red-700">{errors.description.message}</span>
+              <span className="mt-1 block text-xs text-red-700">
+                {errors.description.message}
+              </span>
             )}
           </label>
 
           <div>
-  <input
-    ref={fileInputRef}
-    type="file"
-    multiple
-    accept="image/*,.pdf,.doc,.docx,.txt"
-    className="hidden"
-    onChange={(e) => {
-      addFiles(Array.from(e.target.files ?? []));
-      e.target.value = ""; // permite selecionar o mesmo arquivo de novo
-    }}
-  />
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/*,.pdf,.doc,.docx,.txt"
+              className="hidden"
+              onChange={(e) => {
+                addFiles(Array.from(e.target.files ?? []));
+                e.target.value = ""; // permite selecionar o mesmo arquivo de novo
+              }}
+            />
 
-  <button
-    type="button"
-    disabled={isSubmitting || files.length >= MAX_FILES}
-    onClick={() => fileInputRef.current?.click()}
-    className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#D8E1DA] px-3 py-2 text-sm text-[#0F3D2A] transition-colors hover:border-[#15803D] hover:bg-[#DDF3E4] disabled:opacity-50"
-  >
-    <FiPaperclip size={16} />
-    Anexar arquivos
-  </button>
+            <button
+              type="button"
+              disabled={isSubmitting || files.length >= MAX_FILES}
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#D8E1DA] px-3 py-2 text-sm text-[#0F3D2A] transition-colors hover:border-[#15803D] hover:bg-[#DDF3E4] disabled:opacity-50"
+            >
+              <FiPaperclip size={16} />
+              Anexar arquivos
+            </button>
 
-  {files.length > 0 && (
-    <ul className="mt-3 space-y-2">
-      {files.map((file, i) => (
-        <li
-          key={`${file.name}-${i}`}
-          className="flex items-center justify-between gap-3 rounded-lg bg-[#F2F6F3] px-3 py-2 text-sm text-[#3F5248]"
-        >
-          <span className="truncate">
-            {file.name}{" "}
-            <span className="text-xs text-[#4B5E54]">
-              ({(file.size / 1024).toFixed(0)} KB)
-            </span>
-          </span>
-          <button
-            type="button"
-            aria-label={`Remover ${file.name}`}
-            onClick={() => removeFile(i)}
-            className="rounded-md text-[#4B5E54] transition-colors hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
-          >
-            <FiX size={16} />
-          </button>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+            {files.length > 0 && (
+              <ul className="mt-3 space-y-2">
+                {files.map((file, i) => (
+                  <li
+                    key={`${file.name}-${i}`}
+                    className="flex items-center justify-between gap-3 rounded-lg bg-[#F2F6F3] px-3 py-2 text-sm text-[#3F5248]"
+                  >
+                    <span className="truncate">
+                      {file.name}{" "}
+                      <span className="text-xs text-[#4B5E54]">
+                        ({(file.size / 1024).toFixed(0)} KB)
+                      </span>
+                    </span>
+                    <button
+                      type="button"
+                      aria-label={`Remover ${file.name}`}
+                      onClick={() => removeFile(i)}
+                      className="rounded-md text-[#4B5E54] transition-colors hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
+                    >
+                      <FiX size={16} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-          {errors.root && <p className="text-sm text-red-700" role="alert">{errors.root.message}</p>}
+          {errors.root && (
+            <p className="text-sm text-red-700" role="alert">
+              {errors.root.message}
+            </p>
+          )}
 
           <div className="flex justify-end gap-3 pt-2">
             <button
